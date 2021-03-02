@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: root
+    url: jdbc:mysql://localhost:3306/ars?characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
+  servlet:
+    multipart:
+      max-file-size: 16MB
+      max-request-size: 16MB
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+    #øÿ÷∆Ã®≈‰÷√
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath:mapper/*.xml
