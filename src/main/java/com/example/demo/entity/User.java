@@ -21,9 +21,9 @@ public class User {
 
     private String role;
 
-    private LocalDateTime create_time;
+    private LocalDateTime createTime;
 
-    private LocalDateTime update_time;
+    private LocalDateTime updateTime;
 
-    private LocalDateTime delete_time;
+    private LocalDateTime deleteTime;
 }

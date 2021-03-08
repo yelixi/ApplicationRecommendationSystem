@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.dao.UserInfoDao">
+    <resultMap type="com.example.demo.entity.UserInfo" id="UserInfoMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="avatar" column="avatar" jdbcType="VARCHAR"/>
+        <result property="location" column="location" jdbcType="VARCHAR"/>
+        <result property="mode" column="mode" jdbcType="VARCHAR"/>
+        <result property="expectScore" column="expect_score" jdbcType="INTEGER"/>
+        <result property="chinese" column="chinese" jdbcType="INTEGER"/>
+        <result property="math" column="math" jdbcType="INTEGER"/>
+        <result property="english" column="english" jdbcType="INTEGER"/>
+        <result property="physics" column="physics" jdbcType="INTEGER"/>
+        <result property="chemistry" column="chemistry" jdbcType="INTEGER"/>
+        <result property="biology" column="biology" jdbcType="INTEGER"/>
+        <result property="politics" column="politics" jdbcType="INTEGER"/>
+        <result property="history" column="history" jdbcType="INTEGER"/>
+        <result property="geography" column="geography" jdbcType="INTEGER"/>
+        <result property="technology" column="technology" jdbcType="INTEGER"/>
+        <result property="comprehensiveScience" column="comprehensive_science" jdbcType="INTEGER"/>
+        <result property="comprehensiveLiberalArts" column="comprehensive_liberal_arts" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="deleteTime" column="delete_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="UserInfoMap">
+
+                select
+                  id, user_id, name, avatar, location, mode, expect_score, chinese, math, english, physics, chemistry, biology, politics, history, geography, technology, comprehensive_science, comprehensive_liberal_arts, create_time, update_time, delete_time
+                from ars.user_info
+                where id = #{id}
+
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="UserInfoMap">
+
+                select
+                  id, user_id, name, avatar, location, mode, expect_score, chinese, math, english, physics, chemistry, biology, politics, history, geography, technology, comprehensive_science, comprehensive_liberal_arts, create_time, update_time, delete_time
+                from ars.user_info
+                limit #{offset}, #{limit}
+
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="UserInfoMap">
+        select
+        id, user_id, name, avatar, location, mode, expect_score, chinese, math, english, physics, chemistry, biology,
+        politics, history, geography, technology, comprehensive_science, comprehensive_liberal_arts, create_time,
+        update_time, delete_time
+        from ars.user_info
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+            <if test="avatar != null and avatar != ''">
+                and avatar = #{avatar}
+            </if>
+            <if test="location != null and location != ''">
+                and location = #{location}
+            </if>
+            <if test="mode != null and mode != ''">
+                and mode = #{mode}
+            </if>
+            <if test="expectScore != null">
+                and expect_score = #{expectScore}
+            </if>
+            <if test="chinese != null">
+                and chinese = #{chinese}
+            </if>
+            <if test="math != null">
+                and math = #{math}
+            </if>
+            <if test="english != null">
+                and english = #{english}
+            </if>
+            <if test="physics != null">
+                and physics = #{physics}
+            </if>
+            <if test="chemistry != null">
+                and chemistry = #{chemistry}
+            </if>
+            <if test="biology != null">
+                and biology = #{biology}
+            </if>
+            <if test="politics != null">
+                and politics = #{politics}
+            </if>
+            <if test="history != null">
+                and history = #{history}
+            </if>
+            <if test="geography != null">
+                and geography = #{geography}
+            </if>
+            <if test="technology != null">
+                and technology = #{technology}
+            </if>
+            <if test="comprehensiveScience != null">
+                and comprehensive_science = #{comprehensiveScience}
+            </if>
+            <if test="comprehensiveLiberalArts != null">
+                and comprehensive_liberal_arts = #{comprehensiveLiberalArts}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="deleteTime != null">
+                and delete_time = #{deleteTime}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+
+                insert into ars.user_info(user_id, name, avatar, location, mode, expect_score, chinese, math, english, physics, chemistry, biology, politics, history, geography, technology, comprehensive_science, comprehensive_liberal_arts, create_time, update_time, delete_time)
+                values (#{userId}, #{name}, #{avatar}, #{location}, #{mode}, #{expectScore}, #{chinese}, #{math}, #{english}, #{physics}, #{chemistry}, #{biology}, #{politics}, #{history}, #{geography}, #{technology}, #{comprehensiveScience}, #{comprehensiveLiberalArts}, #{createTime}, #{updateTime}, #{deleteTime})
+
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into ars.user_info(user_id, name, avatar, location, mode, expect_score, chinese, math, english, physics,
+        chemistry, biology, politics, history, geography, technology, comprehensive_science, comprehensive_liberal_arts,
+        create_time, update_time, delete_time)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.userId}, #{entity.name}, #{entity.avatar}, #{entity.location}, #{entity.mode},
+            #{entity.expectScore}, #{entity.chinese}, #{entity.math}, #{entity.english}, #{entity.physics},
+            #{entity.chemistry}, #{entity.biology}, #{entity.politics}, #{entity.history}, #{entity.geography},
+            #{entity.technology}, #{entity.comprehensiveScience}, #{entity.comprehensiveLiberalArts},
+            #{entity.createTime}, #{entity.updateTime}, #{entity.deleteTime})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into ars.user_info(user_id, name, avatar, location, mode, expect_score, chinese, math, english, physics,
+        chemistry, biology, politics, history, geography, technology, comprehensive_science, comprehensive_liberal_arts,
+        create_time, update_time, delete_time)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.userId}, #{entity.name}, #{entity.avatar}, #{entity.location}, #{entity.mode},
+            #{entity.expectScore}, #{entity.chinese}, #{entity.math}, #{entity.english}, #{entity.physics},
+            #{entity.chemistry}, #{entity.biology}, #{entity.politics}, #{entity.history}, #{entity.geography},
+            #{entity.technology}, #{entity.comprehensiveScience}, #{entity.comprehensiveLiberalArts},
+            #{entity.createTime}, #{entity.updateTime}, #{entity.deleteTime})
+        </foreach>
+        on duplicate key update
+        user_id = values(user_id) , name = values(name) , avatar = values(avatar) , location = values(location) , mode =
+        values(mode) , expect_score = values(expect_score) , chinese = values(chinese) , math = values(math) , english =
+        values(english) , physics = values(physics) , chemistry = values(chemistry) , biology = values(biology) ,
+        politics = values(politics) , history = values(history) , geography = values(geography) , technology =
+        values(technology) , comprehensive_science = values(comprehensive_science) , comprehensive_liberal_arts =
+        values(comprehensive_liberal_arts) , create_time = values(create_time) , update_time = values(update_time) ,
+        delete_time = values(delete_time)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update ars.user_info
+        <set>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="avatar != null and avatar != ''">
+                avatar = #{avatar},
+            </if>
+            <if test="location != null and location != ''">
+                location = #{location},
+            </if>
+            <if test="mode != null and mode != ''">
+                mode = #{mode},
+            </if>
+            <if test="expectScore != null">
+                expect_score = #{expectScore},
+            </if>
+            <if test="chinese != null">
+                chinese = #{chinese},
+            </if>
+            <if test="math != null">
+                math = #{math},
+            </if>
+            <if test="english != null">
+                english = #{english},
+            </if>
+            <if test="physics != null">
+                physics = #{physics},
+            </if>
+            <if test="chemistry != null">
+                chemistry = #{chemistry},
+            </if>
+            <if test="biology != null">
+                biology = #{biology},
+            </if>
+            <if test="politics != null">
+                politics = #{politics},
+            </if>
+            <if test="history != null">
+                history = #{history},
+            </if>
+            <if test="geography != null">
+                geography = #{geography},
+            </if>
+            <if test="technology != null">
+                technology = #{technology},
+            </if>
+            <if test="comprehensiveScience != null">
+                comprehensive_science = #{comprehensiveScience},
+            </if>
+            <if test="comprehensiveLiberalArts != null">
+                comprehensive_liberal_arts = #{comprehensiveLiberalArts},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="deleteTime != null">
+                delete_time = #{deleteTime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+
+                delete from ars.user_info where id = #{id}
+
+    </delete>
+</mapper>

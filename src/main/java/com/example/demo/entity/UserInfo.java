@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 public class UserInfo {
     private Integer id;
 
-    private Integer user_id;
+    private Integer userId;
 
     private String name;
 
@@ -22,7 +22,7 @@ public class UserInfo {
 
     private String mode;
 
-    private Integer expect_score;
+    private Integer expectScore;
 
     private Integer chinese;
 
@@ -44,13 +44,13 @@ public class UserInfo {
 
     private Integer technology;
 
-    private Integer comprehensive_science;
+    private Integer comprehensiveScience;
 
-    private Integer comprehensive_liberal_arts;
+    private Integer comprehensiveLiberalArts;
 
-    private LocalDateTime create_time;
+    private LocalDateTime createTime;
 
-    private LocalDateTime update_time;
+    private LocalDateTime updateTime;
 
-    private LocalDateTime delete_time;
+    private LocalDateTime deleteTime;
 }
