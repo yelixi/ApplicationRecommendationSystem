@@ -1,6 +1,7 @@
 package com.example.demo.dao;
 
 import com.example.demo.entity.User;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
  * @author makejava
  * @since 2021-03-08 23:39:18
  */
+@Mapper
 public interface UserDao {
 
     /**
@@ -78,5 +80,7 @@ public interface UserDao {
      * @return 影响行数
      */
     int deleteById(Integer id);
+
+    User queryByUsername(String username);
 
 }

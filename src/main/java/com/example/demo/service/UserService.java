@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 
 import com.example.demo.entity.User;
+import com.example.demo.param.UserRegisterParam;
 
 import java.util.List;
 
@@ -53,5 +54,12 @@ public interface UserService {
      * @return 是否成功
      */
     boolean deleteById(Integer id);
+
+    /**
+     *
+     * @param userRegisterParam 封装的注册参数
+     * @return 是否成功
+     */
+    boolean register(UserRegisterParam userRegisterParam);
 
 }

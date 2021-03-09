@@ -2,7 +2,15 @@ package com.example.demo.service.impl;
 
 import com.example.demo.entity.User;
 import com.example.demo.dao.UserDao;
+import com.example.demo.entity.UserInfo;
+import com.example.demo.model.UserInformation;
+import com.example.demo.param.UserRegisterParam;
 import com.example.demo.service.UserService;
+import org.springframework.beans.BeanUtils;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -15,9 +23,12 @@ import java.util.List;
  * @since 2021-03-08 23:39:18
  */
 @Service("userService")
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService , UserDetailsService {
     @Resource
     private UserDao userDao;
+
+    @Resource
+    private PasswordEncoder passwordEncoder;
 
     /**
      * 通过ID查询单条数据
@@ -75,5 +86,23 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean deleteById(Integer id) {
         return this.userDao.deleteById(id) > 0;
+    }
+
+    @Override
+    public boolean register(UserRegisterParam userRegisterParam) {
+        User user = new User();
+        BeanUtils.copyProperties(userRegisterParam, user);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRole("0");
+        return this.userDao.insert(user) == 1;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        User user = this.userDao.queryByUsername(s);
+        if (user == null) {
+            throw new UsernameNotFoundException(s);
+        }
+        return new UserInformation(user);
     }
 }

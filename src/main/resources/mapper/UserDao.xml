@@ -129,4 +129,14 @@
                 delete from ars.user where id = #{id}
 
     </delete>
+
+    <!--通过username查询-->
+    <select id="queryByUsername" resultMap="UserMap">
+
+                select
+                  id, username, password, phone, role, create_time, update_time, delete_time
+                from ars.user
+                where username = #{username}
+
+    </select>
 </mapper>

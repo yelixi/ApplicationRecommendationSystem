@@ -1,6 +1,7 @@
 package com.example.demo.dao;
 
 import com.example.demo.entity.UserInfo;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
  * @author makejava
  * @since 2021-03-08 23:42:45
  */
+@Mapper
 public interface UserInfoDao {
 
     /**
