@@ -1,0 +1,63 @@
+2021-03-10 23:22:24 [main] INFO  com.example.demo.ArsApplication - Starting ArsApplication using Java 11.0.6 on localhost with PID 44078 (/Users/apple/Documents/GitHub/ApplicationRecommendationSystem/target/classes started by apple in /Users/apple/Documents/GitHub/ApplicationRecommendationSystem) 
+2021-03-10 23:22:24 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 6.1.7.Final 
+2021-03-10 23:22:24 [main] INFO  com.example.demo.ArsApplication - The following profiles are active: dev 
+2021-03-10 23:22:25 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode! 
+2021-03-10 23:22:25 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode. 
+2021-03-10 23:22:25 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 10 ms. Found 0 Redis repository interfaces. 
+2021-03-10 23:22:25 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@3b705be7' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying) 
+2021-03-10 23:22:25 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying) 
+2021-03-10 23:22:26 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http) 
+2021-03-10 23:22:26 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"] 
+2021-03-10 23:22:26 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat] 
+2021-03-10 23:22:26 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.43] 
+2021-03-10 23:22:26 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext 
+2021-03-10 23:22:26 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1565 ms 
+2021-03-10 23:22:27 [main] INFO  o.s.s.c.ThreadPoolTaskScheduler - Initializing ExecutorService 'taskScheduler' 
+2021-03-10 23:22:27 [main] INFO  o.s.s.c.ThreadPoolTaskExecutor - Initializing ExecutorService 
+2021-03-10 23:22:27 [main] INFO  o.s.s.c.ThreadPoolTaskExecutor - Initializing ExecutorService 'getAsyncExecutor' 
+2021-03-10 23:22:27 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@2c77344f, org.springframework.security.web.context.SecurityContextPersistenceFilter@68e24e7, org.springframework.security.web.header.HeaderWriterFilter@3a16984c, org.springframework.web.filter.CorsFilter@121ddca4, org.springframework.security.web.authentication.logout.LogoutFilter@7e2bc2f4, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@2bf3ec4, org.springframework.security.web.session.ConcurrentSessionFilter@39c7fb0b, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@6aad919c, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@11148dc2, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@297bd171, org.springframework.security.web.session.SessionManagementFilter@3a3ad8e7, org.springframework.security.web.access.ExceptionTranslationFilter@2ae5bd34, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@3f06ebe0] 
+2021-03-10 23:22:27 [main] INFO  o.f.c.i.license.VersionPrinter - Flyway Community Edition 7.1.1 by Redgate 
+2021-03-10 23:22:27 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting... 
+2021-03-10 23:22:28 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed. 
+2021-03-10 23:22:28 [main] INFO  o.f.c.i.database.base.DatabaseType - Database: jdbc:mysql://localhost:3306/ars (MySQL 5.7) 
+2021-03-10 23:22:28 [main] INFO  o.f.core.internal.command.DbValidate - Successfully validated 2 migrations (execution time 00:00.106s) 
+2021-03-10 23:22:28 [main] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'flywayInitializer' defined in class path resource [org/springframework/boot/autoconfigure/flyway/FlywayAutoConfiguration$FlywayConfiguration.class]: Invocation of init method failed; nested exception is org.flywaydb.core.api.FlywayException: Found non-empty schema(s) `ars` but no schema history table. Use baseline() or set baselineOnMigrate to true to initialize the schema history table. 
+2021-03-10 23:22:28 [main] INFO  o.s.s.c.ThreadPoolTaskExecutor - Shutting down ExecutorService 'getAsyncExecutor' 
+2021-03-10 23:22:28 [main] INFO  o.s.s.c.ThreadPoolTaskScheduler - Shutting down ExecutorService 'taskScheduler' 
+2021-03-10 23:22:28 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated... 
+2021-03-10 23:22:28 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed. 
+2021-03-10 23:22:28 [main] INFO  o.a.catalina.core.StandardService - Stopping service [Tomcat] 
+2021-03-10 23:22:28 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLoggingListener - 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled. 
+2021-03-10 23:22:28 [main] ERROR o.s.boot.SpringApplication - Application run failed org.flywaydb.core.api.FlywayException: Found non-empty schema(s) `ars` but no schema history table. Use baseline() or set baselineOnMigrate to true to initialize the schema history table.
+	at org.flywaydb.core.Flyway$1.execute(Flyway.java:195)
+	at org.flywaydb.core.Flyway$1.execute(Flyway.java:164)
+	at org.flywaydb.core.Flyway.execute(Flyway.java:538)
+	at org.flywaydb.core.Flyway.migrate(Flyway.java:164)
+	at org.springframework.boot.autoconfigure.flyway.FlywayMigrationInitializer.afterPropertiesSet(FlywayMigrationInitializer.java:66)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1845)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1782)
+	... 19 common frames omitted
+Wrapped by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'flywayInitializer' defined in class path resource [org/springframework/boot/autoconfigure/flyway/FlywayAutoConfiguration$FlywayConfiguration.class]: Invocation of init method failed; nested exception is org.flywaydb.core.api.FlywayException: Found non-empty schema(s) `ars` but no schema history table. Use baseline() or set baselineOnMigrate to true to initialize the schema history table.
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1786)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:602)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:524)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:335)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:333)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:208)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:322)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:208)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:944)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:917)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:582)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:144)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:767)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:759)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:426)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:326)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1311)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1300)
+	at com.example.demo.ArsApplication.main(ArsApplication.java:10)
+
