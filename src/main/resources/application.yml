@@ -10,10 +10,10 @@ mybatis:
 
 
 spring:
+  profiles:
+    active: "@build.profile.id@"
   config:
     use-legacy-processing: true
-    activate:
-      on-profile: @build.profile.id@
   application:
     name: ars
   servlet:
