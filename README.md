@@ -1,7 +1,7 @@
 # Application Recommendation System
 技术栈：Spring Boot + MySQL(MyBatis) + Redis + Spring Security
 
-先配置一下application.properties里面的数据库账号密码，再在本机建立interact数据库（注意编码为utf8mb4），之后启动后会自动进行数据库的迁移（Flyway），建库的sql文件在db/migration下，无需手动导入。
+先配置一下application.properties里面的数据库账号密码，再在本机建立ars数据库（注意编码为utf8mb4），之后启动后会自动进行数据库的迁移（Flyway），建库的sql文件在db/migration下，无需手动导入。
 
 ## 个人中心
 
