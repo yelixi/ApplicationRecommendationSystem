@@ -22,4 +22,6 @@ public class UserRegisterParam {
 
     @NotNull(message = "email不能为空")
     private String email;
+
+    private String code;
 }

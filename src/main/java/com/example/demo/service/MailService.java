@@ -49,11 +49,11 @@ public class MailService {
      * @param mail 发送地址
      * @param text 发送内容
      */
-    public void sendMail(String mail, String text){
+    public void sendMail(String subject, String mail, String text){
         SimpleMailMessage passWordResetEmail = new SimpleMailMessage();
         passWordResetEmail.setFrom(from);
         passWordResetEmail.setTo(mail);
-        passWordResetEmail.setSubject("【高考智能推荐系统】忘记密码");
+        passWordResetEmail.setSubject(subject);
         passWordResetEmail.setText(text);
         sender.send(passWordResetEmail);
     }

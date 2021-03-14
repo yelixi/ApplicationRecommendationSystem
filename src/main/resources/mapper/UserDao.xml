@@ -77,7 +77,7 @@
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
 
                 insert into ars.user(username, password, phone, role, create_time, update_time, delete_time, email, state)
-                values (#{username}, #{password}, #{phone}, #{role}, #{createTime}, #{updateTime}, #{deleteTime}, #{email}), #{state}
+                values (#{username}, #{password}, #{phone}, #{role}, #{createTime}, #{updateTime}, #{deleteTime}, #{email}, #{state})
 
     </insert>
 

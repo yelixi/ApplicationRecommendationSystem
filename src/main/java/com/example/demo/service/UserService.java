@@ -57,7 +57,6 @@ public interface UserService {
     boolean deleteById(Integer id);
 
     /**
-     *
      * @param userRegisterParam 封装的注册参数
      * @return 是否成功
      */
@@ -65,6 +64,7 @@ public interface UserService {
 
     /**
      * 忘记密码接口
+     *
      * @param email 验证的邮箱
      * @return 是否成功
      */
@@ -72,8 +72,17 @@ public interface UserService {
 
     /**
      * 验证忘记密码接口
+     *
      * @param passwordParam 验证忘记密码表单
      * @return 是否成功
      */
     boolean changeForgotPassword(ChangeForgotPasswordParam passwordParam);
+
+    /**
+     * 解除未验证的状态的接口
+     *
+     * @param param 注册表单
+     * @return 是否成功
+     */
+    boolean unlock(UserRegisterParam param);
 }

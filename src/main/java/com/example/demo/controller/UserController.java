@@ -40,11 +40,19 @@ public class UserController {
         return this.userService.queryById(id);
     }
 
+
+    /**
+     * 注册接口，注册时会向注册邮箱发送验证邮件，未通过的用户会处于未验证状态，无法登陆
+     *
+     * @param userRegisterParam 注册的表单
+     * @param bindingResult     表单验证参数
+     * @return 是否成功
+     */
     @PostMapping("/register")
     public RestResult<Boolean> register(@Validated @RequestBody UserRegisterParam userRegisterParam,
-                                        BindingResult bindingResult){
-        if(bindingResult.hasErrors()){
-            return RestResult.error(-1, Objects.requireNonNull(bindingResult.getFieldError()).getField()+","+
+                                        BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return RestResult.error(-1, Objects.requireNonNull(bindingResult.getFieldError()).getField() + "," +
                     bindingResult.getFieldError().getDefaultMessage());
         }
         return RestResult.success(this.userService.register(userRegisterParam));
@@ -52,27 +60,46 @@ public class UserController {
 
     /**
      * 忘记密码接口
+     *
      * @param email 验证的邮箱
      * @return 返回是否成功
      */
     @PostMapping("/forgotPassword")
-    public RestResult<Boolean> forgotPassword(@RequestParam("email") String email){
+    public RestResult<Boolean> forgotPassword(@RequestParam("email") String email) {
         return RestResult.success(this.userService.forgotPassword(email));
     }
 
     /**
      * 验证修改密码
+     *
      * @param passwordParam 验证修改密码表单
      * @param bindingResult 表单验证
      * @return 是否成功
      */
     @PostMapping("/changeForgotPassword")
     public RestResult<Boolean> changeForgotPassword(@Validated @RequestBody ChangeForgotPasswordParam passwordParam,
-                                                    BindingResult bindingResult){
-        if(bindingResult.hasErrors()){
-            return RestResult.error(-1, Objects.requireNonNull(bindingResult.getFieldError()).getField()+","+
+                                                    BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return RestResult.error(-1, Objects.requireNonNull(bindingResult.getFieldError()).getField() + "," +
                     bindingResult.getFieldError().getDefaultMessage());
         }
         return RestResult.success(this.userService.changeForgotPassword(passwordParam));
+    }
+
+    /**
+     * 解除未验证的状态的接口
+     *
+     * @param param         注册表单
+     * @param bindingResult 表单验证
+     * @return 是否成功
+     */
+    @PostMapping("/unlock")
+    public RestResult<Boolean> unlock(@Validated @RequestBody UserRegisterParam param,
+                                      BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return RestResult.error(-1, Objects.requireNonNull(bindingResult.getFieldError()).getField() + "," +
+                    bindingResult.getFieldError().getDefaultMessage());
+        }
+        return RestResult.success(this.userService.unlock(param));
     }
 }

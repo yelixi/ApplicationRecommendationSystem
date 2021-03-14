@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService , UserDetailsService {
     @Resource
     private MailService mailService;
 
-    private final Integer EXPIRE_DATE = 10*60*60;
+    private final Integer EXPIRE_DATE = 10 * 60 * 60;
 
     /**
      * 通过ID查询单条数据
@@ -104,7 +104,6 @@ public class UserServiceImpl implements UserService , UserDetailsService {
 
 
     /**
-     *
      * @param userRegisterParam 封装的注册参数
      * @return 是否成功
      */
@@ -114,50 +113,92 @@ public class UserServiceImpl implements UserService , UserDetailsService {
         BeanUtils.copyProperties(userRegisterParam, user);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole("0");
+        user.setState(0);
+        String code = RandomStringUtils.randomNumeric(6);
+        //生成唯一key索引
+        String key = userRegisterParam.getUsername() + "_" + userRegisterParam.getEmail();
+        redisService.set(key, code, EXPIRE_DATE);
+        String text = userRegisterParam.getUsername() + "您好," + "您的验证码为" + code + ",有效时间为" + EXPIRE_DATE / (60 * 60) + "分钟,如非本人操作请忽略";
+        String subject = "【高考智能推荐系统】验证用户";
+        mailService.sendMail(subject, userRegisterParam.getEmail(), text);
         return this.userDao.insert(user) == 1;
     }
 
 
     /**
      * 忘记密码接口
+     *
      * @param email 验证的邮箱
      * @return 是否成功
      */
     @Override
     public boolean forgotPassword(String email) {
         User user = userDao.queryByEmail(email);
-        if(user==null)
+        if (user == null)
             throw new RuntimeException("邮箱不存在");
-        String code = RandomStringUtils.randomNumeric( 6 );
-        redisService.set("code",code,EXPIRE_DATE);
-        String text = "您的验证码为"+code+"有效时间为"+EXPIRE_DATE/(60*60)+"如非本人操作请忽略";
-        mailService.sendMail(email,text);
+        String code = RandomStringUtils.randomNumeric(6);
+        String key = user.getUsername() + "_" + user.getEmail();
+        redisService.set(key, code, EXPIRE_DATE);
+        String text = user.getUsername() + "您好," + "您的验证码为" + code + ",有效时间为" + EXPIRE_DATE / (60 * 60) + "分钟,如非本人操作请忽略";
+        String subject = "【高考智能推荐系统】忘记密码";
+        mailService.sendMail(subject, email, text);
         return true;
     }
 
     /**
      * 验证忘记密码接口
+     *
      * @param passwordParam 验证忘记密码表单
      * @return 是否成功
      */
     @Override
     public boolean changeForgotPassword(ChangeForgotPasswordParam passwordParam) {
-        String code = (String) redisService.get("code");
+        User user = userDao.queryByEmail(passwordParam.getEmail());
+        //生成唯一key索引
+        String key = user.getUsername() + "_" + user.getEmail();
+        String code = (String) redisService.get(key);
         if (code.isEmpty())
             throw new RuntimeException("此验证码已过期");
         else if (!code.equals(passwordParam.getCode()))
             throw new RuntimeException("验证码错误");
-        User user = userDao.queryByEmail(passwordParam.getEmail());
         user.setPassword(passwordEncoder.encode(passwordParam.getPassword()));
         return userDao.update(user) == 1;
     }
 
+    /**
+     * 解除未验证的状态的接口
+     *
+     * @param param 注册表单
+     * @return 是否成功
+     */
+    @Override
+    public boolean unlock(UserRegisterParam param) {
+        //生成唯一key索引
+        String key = param.getUsername() + "_" + param.getEmail();
+        String code = (String) redisService.get(key);
+        if (code.isEmpty())
+            throw new RuntimeException("此验证码已过期");
+        else if (!code.equals(param.getCode()))
+            throw new RuntimeException("验证码错误");
+        User user = userDao.queryByEmail(param.getEmail());
+        user.setState(1);
+        return userDao.update(user) == 1;
+    }
+
+    /**
+     * 登陆接口
+     *
+     * @param s 登陆传递的参数
+     * @return 构造返回session
+     * @throws UsernameNotFoundException 用户不存在则抛出
+     */
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         User user = this.userDao.queryByUsername(s);
         if (user == null) {
             throw new UsernameNotFoundException(s);
-        }
+        } else if (user.getState() == 0)
+            throw new RuntimeException("此用户未激活，请先激活");
         return new UserInformation(user);
     }
 }
