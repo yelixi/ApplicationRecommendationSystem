@@ -11,7 +11,7 @@
  Target Server Version : 50728
  File Encoding         : 65001
 
- Date: 12/03/2021 13:39:46
+ Date: 14/03/2021 23:41:54
 */
 
 SET NAMES utf8mb4;
@@ -28,10 +28,11 @@ CREATE TABLE `user`  (
   `phone` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `email` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `role` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `state` int(11) NULL DEFAULT NULL COMMENT '\"0\"表示未激活,\"1\"表示已激活',
   `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0),
   `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0),
   `delete_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0),
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 SET FOREIGN_KEY_CHECKS = 1;

@@ -8,6 +8,7 @@
         <result property="phone" column="phone" jdbcType="VARCHAR"/>
         <result property="role" column="role" jdbcType="VARCHAR"/>
         <result property="email" column="email" jdbcType="VARCHAR"/>
+        <result property="state" column="state" jdbcType="INTEGER"/>
         <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
         <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
         <result property="deleteTime" column="delete_time" jdbcType="TIMESTAMP"/>
@@ -17,7 +18,7 @@
     <select id="queryById" resultMap="UserMap">
 
                 select
-                  id, username, password, phone, role, create_time, update_time, delete_time, email
+                  id, username, password, phone, role, create_time, update_time, delete_time, email, state
                 from ars.user
                 where id = #{id}
 
@@ -27,7 +28,7 @@
     <select id="queryAllByLimit" resultMap="UserMap">
 
                 select
-                  id, username, password, phone, role, create_time, update_time, delete_time, email
+                  id, username, password, phone, role, create_time, update_time, delete_time, email, state
                 from ars.user
                 limit #{offset}, #{limit}
 
@@ -36,7 +37,7 @@
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="UserMap">
         select
-        id, username, password, phone, role, create_time, update_time, delete_time, email
+        id, username, password, phone, role, create_time, update_time, delete_time, email, state
         from ars.user
         <where>
             <if test="id != null">
@@ -57,6 +58,9 @@
             <if test="role != null and role != ''">
                 and role = #{role}
             </if>
+            <if test="state != null and state != ''">
+                and state = #{state}
+            </if>
             <if test="createTime != null">
                 and create_time = #{createTime}
             </if>
@@ -72,31 +76,31 @@
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
 
-                insert into ars.user(username, password, phone, role, create_time, update_time, delete_time, email)
-                values (#{username}, #{password}, #{phone}, #{role}, #{createTime}, #{updateTime}, #{deleteTime}, #{email})
+                insert into ars.user(username, password, phone, role, create_time, update_time, delete_time, email, state)
+                values (#{username}, #{password}, #{phone}, #{role}, #{createTime}, #{updateTime}, #{deleteTime}, #{email}), #{state}
 
     </insert>
 
     <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
-        insert into ars.user(username, password, phone, role, create_time, update_time, delete_time, email)
+        insert into ars.user(username, password, phone, role, create_time, update_time, delete_time, email, state)
         values
         <foreach collection="entities" item="entity" separator=",">
             (#{entity.username}, #{entity.password}, #{entity.phone}, #{entity.role}, #{entity.createTime},
-            #{entity.updateTime}, #{entity.deleteTime}), #{entity.email}
+            #{entity.updateTime}, #{entity.deleteTime}), #{entity.email}, #{entity.state}
         </foreach>
     </insert>
 
     <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
-        insert into ars.user(username, password, phone, role, create_time, update_time, delete_time, email)
+        insert into ars.user(username, password, phone, role, create_time, update_time, delete_time, email, state)
         values
         <foreach collection="entities" item="entity" separator=",">
             (#{entity.username}, #{entity.password}, #{entity.phone}, #{entity.role}, #{entity.createTime},
-            #{entity.updateTime}, #{entity.deleteTime}), #{entity.email}
+            #{entity.updateTime}, #{entity.deleteTime}), #{entity.email}, #{entity.state}
         </foreach>
         on duplicate key update
         username = values(username) , password = values(password) , phone = values(phone) , role = values(role) ,
         create_time = values(create_time) , update_time = values(update_time) , delete_time = values(delete_time),
-        email = values(email)
+        email = values(email), state = values(state)
     </insert>
 
     <!--通过主键修改数据-->
@@ -117,6 +121,9 @@
             </if>
             <if test="role != null and role != ''">
                 role = #{role},
+            </if>
+            <if test="state != null and state != ''">
+                state = #{state},
             </if>
             <if test="createTime != null">
                 create_time = #{createTime},
@@ -142,7 +149,7 @@
     <select id="queryByUsername" resultMap="UserMap">
 
                 select
-                  id, username, password, phone, role, create_time, update_time, delete_time, email
+                  id, username, password, phone, role, create_time, update_time, delete_time, email, state
                 from ars.user
                 where username = #{username}
 
@@ -151,7 +158,7 @@
     <select id="queryByEmail" resultMap="UserMap">
 
                 select
-                  id, username, password, phone, role, create_time, update_time, delete_time, email
+                  id, username, password, phone, role, create_time, update_time, delete_time, email, state
                 from ars.user
                 where email = #{email}
 

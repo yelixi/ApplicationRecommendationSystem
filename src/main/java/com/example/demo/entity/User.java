@@ -23,6 +23,8 @@ public class User {
 
     private String email;
 
+    private Integer state;
+
     private LocalDateTime createTime;
 
     private LocalDateTime updateTime;
