@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 
 import com.example.demo.entity.User;
+import com.example.demo.param.ChangeForgotPasswordParam;
 import com.example.demo.param.UserRegisterParam;
 
 import java.util.List;
@@ -62,4 +63,17 @@ public interface UserService {
      */
     boolean register(UserRegisterParam userRegisterParam);
 
+    /**
+     * 忘记密码接口
+     * @param email 验证的邮箱
+     * @return 是否成功
+     */
+    boolean forgotPassword(String email);
+
+    /**
+     * 验证忘记密码接口
+     * @param passwordParam 验证忘记密码表单
+     * @return 是否成功
+     */
+    boolean changeForgotPassword(ChangeForgotPasswordParam passwordParam);
 }

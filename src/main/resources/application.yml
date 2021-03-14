@@ -20,3 +20,18 @@ spring:
     multipart:
       max-file-size: 16MB
       max-request-size: 16MB
+  mail:
+    host:
+    username:
+    password:
+    default-encoding: UTF-8
+    port:
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          ssl:
+            enable: true
+          required: true

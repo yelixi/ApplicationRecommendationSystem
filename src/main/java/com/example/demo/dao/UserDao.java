@@ -83,4 +83,6 @@ public interface UserDao {
 
     User queryByUsername(String username);
 
+    User queryByEmail(String username);
+
 }

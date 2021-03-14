@@ -2,8 +2,11 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.User;
 import com.example.demo.model.RestResult;
+import com.example.demo.model.UserInformation;
+import com.example.demo.param.ChangeForgotPasswordParam;
 import com.example.demo.param.UserRegisterParam;
 import com.example.demo.service.UserService;
+import org.springframework.security.core.Authentication;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -45,5 +48,31 @@ public class UserController {
                     bindingResult.getFieldError().getDefaultMessage());
         }
         return RestResult.success(this.userService.register(userRegisterParam));
+    }
+
+    /**
+     * 忘记密码接口
+     * @param email 验证的邮箱
+     * @return 返回是否成功
+     */
+    @PostMapping("/forgotPassword")
+    public RestResult<Boolean> forgotPassword(@RequestParam("email") String email){
+        return RestResult.success(this.userService.forgotPassword(email));
+    }
+
+    /**
+     * 验证修改密码
+     * @param passwordParam 验证修改密码表单
+     * @param bindingResult 表单验证
+     * @return 是否成功
+     */
+    @PostMapping("/changeForgotPassword")
+    public RestResult<Boolean> changeForgotPassword(@Validated @RequestBody ChangeForgotPasswordParam passwordParam,
+                                                    BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            return RestResult.error(-1, Objects.requireNonNull(bindingResult.getFieldError()).getField()+","+
+                    bindingResult.getFieldError().getDefaultMessage());
+        }
+        return RestResult.success(this.userService.changeForgotPassword(passwordParam));
     }
 }

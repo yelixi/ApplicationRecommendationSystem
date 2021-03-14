@@ -25,7 +25,9 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
             "/configuration/ui",
             "/configuration/security",
             "/webjars/**",
-            "/user/register"
+            "/user/register",
+            "/user/forgotPassword",
+            "/user/changeForgotPassword"
     };
 
     @Override

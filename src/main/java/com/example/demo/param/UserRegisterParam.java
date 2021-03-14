@@ -19,4 +19,7 @@ public class UserRegisterParam {
 
     @NotNull(message = "phone不能为空")
     private String phone;
+
+    @NotNull(message = "email不能为空")
+    private String email;
 }
