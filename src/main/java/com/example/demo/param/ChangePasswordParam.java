@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 @Data
 public class ChangePasswordParam {
 
-    @NotNull(message = "旧密码不能为空")
+    @NotNull(message = "旧密码不能为空，请输入旧密码")
     private String oldPassword;
 
     @NotNull(message = "新密码不能为空")
