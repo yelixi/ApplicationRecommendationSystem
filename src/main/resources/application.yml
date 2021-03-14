@@ -21,11 +21,11 @@ spring:
       max-file-size: 16MB
       max-request-size: 16MB
   mail:
-    host:
-    username:
-    password:
+    host: smtp.qq.com
+    username: XXXXXX@qq.com
+    password: emailPassword
     default-encoding: UTF-8
-    port:
+    port: 465
     properties:
       mail:
         smtp:
