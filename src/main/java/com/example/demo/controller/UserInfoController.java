@@ -33,7 +33,7 @@ public class UserInfoController {
         return this.userInfoService.queryById(id);
     }
 
-    @PostMapping("update")
+    @PostMapping("/update")
     public RestResult<UserInfo> update(@RequestBody UserInfo userupdateInfo)
     {
         return RestResult.success(this.userInfoService.update(userupdateInfo));
