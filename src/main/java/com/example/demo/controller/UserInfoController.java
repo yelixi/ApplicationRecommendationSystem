@@ -1,10 +1,9 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.UserInfo;
+import com.example.demo.model.RestResult;
 import com.example.demo.service.UserInfoService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -32,6 +31,12 @@ public class UserInfoController {
     @GetMapping("selectOne")
     public UserInfo selectOne(Integer id) {
         return this.userInfoService.queryById(id);
+    }
+
+    @PostMapping("update")
+    public RestResult<UserInfo> update(@RequestBody UserInfo userupdateInfo)
+    {
+        return RestResult.success(this.userInfoService.update(userupdateInfo));
     }
 
 }
