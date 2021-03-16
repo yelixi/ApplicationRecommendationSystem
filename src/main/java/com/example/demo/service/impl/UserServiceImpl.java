@@ -16,10 +16,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.net.http.HttpRequest;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 
@@ -108,13 +110,17 @@ public class UserServiceImpl implements UserService , UserDetailsService {
      * @param userRegisterParam 封装的注册参数
      * @return 是否成功
      */
+    @Transactional
     @Override
     public boolean register(UserRegisterParam userRegisterParam) {
         User user = new User();
         BeanUtils.copyProperties(userRegisterParam, user);
+        user.setCreateTime(LocalDateTime.now());
+        user.setUpdateTime(LocalDateTime.now());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole("0");
         user.setState(0);
+        boolean result = this.userDao.insert(user) == 1;
         String code = RandomStringUtils.randomNumeric(6);
         //生成唯一key索引
         String key = userRegisterParam.getUsername() + "_" + userRegisterParam.getEmail();
@@ -122,7 +128,7 @@ public class UserServiceImpl implements UserService , UserDetailsService {
         String text = userRegisterParam.getUsername() + "您好," + "您的验证码为" + code + ",有效时间为" + EXPIRE_DATE / (60 * 60) + "分钟,如非本人操作请忽略";
         String subject = "【高考智能推荐系统】验证用户";
         mailService.sendMail(subject, userRegisterParam.getEmail(), text);
-        return this.userDao.insert(user) == 1;
+        return result;
     }
 
 

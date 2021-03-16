@@ -14,14 +14,23 @@ public class UserInfo {
 
     private Integer userId;
 
+    /**
+     * 用户的真实姓名
+     */
     private String name;
 
     private String avatar;
 
     private String location;
 
+    /**
+     * 高考模式
+     */
     private String mode;
 
+    /**
+     * 期望分数
+     */
     private Integer expectScore;
 
     private Integer chinese;
@@ -42,10 +51,19 @@ public class UserInfo {
 
     private Integer geography;
 
+    /**
+     * 技术
+     */
     private Integer technology;
 
+    /**
+     * 理综
+     */
     private Integer comprehensiveScience;
 
+    /**
+     * 文综
+     */
     private Integer comprehensiveLiberalArts;
 
     private LocalDateTime createTime;
