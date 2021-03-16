@@ -43,6 +43,16 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     /**
+     * 通过实体作为筛选条件查询
+     * @param userInfo
+     * @return
+     */
+    @Override
+    public List<UserInfo> queryAll(UserInfo userInfo) {
+        return this.userInfoDao.queryAll(userInfo);
+    }
+
+    /**
      * 新增数据
      *
      * @param userInfo 实例对象

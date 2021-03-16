@@ -30,6 +30,14 @@ public interface UserInfoService {
     List<UserInfo> queryAllByLimit(int offset, int limit);
 
     /**
+     * 通过实体作为筛选条件查询
+     * @param userInfo
+     * @return
+     */
+
+    List<UserInfo> queryAll(UserInfo userInfo);
+
+    /**
      * 新增数据
      *
      * @param userInfo 实例对象
@@ -52,5 +60,7 @@ public interface UserInfoService {
      * @return 是否成功
      */
     boolean deleteById(Integer id);
+
+
 
 }
