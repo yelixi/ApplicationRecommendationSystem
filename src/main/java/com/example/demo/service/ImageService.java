@@ -27,6 +27,12 @@ public class ImageService {
         return saveFileToLocalServeWithDir(srcFile, null);
     }
 
+    /**
+     * 保存文件到本地文件夹
+     * @param srcFile
+     * @param dirname
+     * @return java.lang.String
+     */
     public String saveFileToLocalServeWithDir(MultipartFile srcFile, String dirname) {
         if (srcFile.isEmpty()) {
             return null;

@@ -4,22 +4,16 @@ import com.example.demo.entity.UserInfo;
 import com.example.demo.enums.ResultEnum;
 import com.example.demo.model.RestResult;
 import com.example.demo.model.UserInformation;
-
 import com.example.demo.service.ImageService;
 import com.example.demo.service.UserInfoService;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.annotation.Resource;
 import java.security.Principal;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -31,9 +25,7 @@ import java.util.Objects;
 @RestController
 @RequestMapping("userInfo")
 public class UserInfoController {
-    /**
-     * 服务对象
-     */
+
     @Resource
     private UserInfoService userInfoService;
     @Resource
@@ -74,9 +66,14 @@ public class UserInfoController {
         }
     }
 
+    /**
+     * 头像上传
+     * @param file 图片文件
+     * @param type 类型 如：avatar
+     * @return com.example.demo.model.RestResult
+     */
     @PostMapping("uploadAvatar")
-    public RestResult<String> uploadAvatar(MultipartHttpServletRequest request, String type, Principal principal) {
-        MultipartFile file = request.getFile("file");
+    public RestResult<String> uploadAvatar(@RequestParam("file") MultipartFile file, String type, Principal principal) {
         if (file == null) {
             return RestResult.error("file不存在");
         }
