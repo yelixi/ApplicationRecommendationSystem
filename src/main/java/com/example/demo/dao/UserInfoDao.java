@@ -81,4 +81,6 @@ public interface UserInfoDao {
      */
     int deleteById(Integer id);
 
+    UserInfo queryByUserId(Integer userId);
+
 }

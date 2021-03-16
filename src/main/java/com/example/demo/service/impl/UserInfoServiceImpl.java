@@ -86,4 +86,9 @@ public class UserInfoServiceImpl implements UserInfoService {
     public boolean deleteById(Integer id) {
         return this.userInfoDao.deleteById(id) > 0;
     }
+
+    @Override
+    public UserInfo queryByUserId(Integer userId) {
+        return this.userInfoDao.queryByUserId(userId);
+    }
 }

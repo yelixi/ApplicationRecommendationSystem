@@ -244,4 +244,13 @@
                 delete from ars.user_info where id = #{id}
 
     </delete>
+
+    <select id="queryByUserId" resultMap="UserInfoMap">
+
+                select
+                  id, user_id, name, avatar, location, mode, expect_score, chinese, math, english, physics, chemistry, biology, politics, history, geography, technology, comprehensive_science, comprehensive_liberal_arts, create_time, update_time, delete_time
+                from ars.user_info
+                where user_id = #{userId}
+
+    </select>
 </mapper>

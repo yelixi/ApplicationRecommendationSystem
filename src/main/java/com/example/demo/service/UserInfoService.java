@@ -61,6 +61,6 @@ public interface UserInfoService {
      */
     boolean deleteById(Integer id);
 
-
+    UserInfo queryByUserId(Integer userId);
 
 }

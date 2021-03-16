@@ -4,17 +4,10 @@ import com.example.demo.entity.UserInfo;
 import com.example.demo.enums.ResultEnum;
 import com.example.demo.model.RestResult;
 import com.example.demo.model.UserInformation;
-<<<<<<< HEAD
-import com.example.demo.service.UserInfoService;
-import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
-import java.util.List;
-import java.util.UUID;
-=======
 import com.example.demo.service.ImageService;
 import com.example.demo.service.UserInfoService;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,8 +19,8 @@ import javax.annotation.Resource;
 import java.security.Principal;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
->>>>>>> bac87e27bb1d77eab3f10d5834fbb84bde80c479
 
 /**
  * (UserInfo)表控制层
@@ -63,29 +56,26 @@ public class UserInfoController {
 
     /**
      * 修改用户信息
-     * @param userupdateInfo
-     * @param authentication
-     * @return
+     * @param userUpdateInfo 用户信息表单
+     * @param authentication session
+     * @return 是否成功
      */
-    @PostMapping("/update")
-    public RestResult<UserInfo> update(@RequestBody UserInfo userupdateInfo, Authentication authentication)
+    @PostMapping("/updateInfo")
+    public RestResult<UserInfo> update(@RequestBody UserInfo userUpdateInfo, Authentication authentication)
     {
         UserInformation userInformation=(UserInformation)authentication.getPrincipal();
-        UserInfo index=new UserInfo();
-        index.setUserId(userInformation.getId());
-        List<UserInfo> userInfos=this.userInfoService.queryAll(index);
+        UserInfo userInfos=this.userInfoService.queryByUserId(userInformation.getId());
         if (userInfos==null)
         {
-            userupdateInfo.setUserId(userInformation.getId());
-            return RestResult.success(this.userInfoService.insert(userupdateInfo));
+            userUpdateInfo.setUserId(userInformation.getId());
+            return RestResult.success(this.userInfoService.insert(userUpdateInfo));
         }else{
-            userupdateInfo.setId(userInfos.get(0).getId());
-            return RestResult.success(this.userInfoService.update(userupdateInfo));
+            return RestResult.success(this.userInfoService.update(userUpdateInfo));
         }
     }
 
     @PostMapping("uploadAvatar")
-    public RestResult uploadAvatar(MultipartHttpServletRequest request, String type, Principal principal) {
+    public RestResult<String> uploadAvatar(MultipartHttpServletRequest request, String type, Principal principal) {
         MultipartFile file = request.getFile("file");
         if (file == null) {
             return RestResult.error("file不存在");
