@@ -2,7 +2,9 @@ package com.example.demo.service;
 
 
 import com.example.demo.entity.User;
+import com.example.demo.model.UserInformation;
 import com.example.demo.param.ChangeForgotPasswordParam;
+import com.example.demo.param.ChangePasswordParam;
 import com.example.demo.param.UserRegisterParam;
 
 import java.util.List;
@@ -85,4 +87,6 @@ public interface UserService {
      * @return 是否成功
      */
     boolean unlock(UserRegisterParam param);
+
+    boolean changePassword(ChangePasswordParam param, UserInformation userInformation);
 }

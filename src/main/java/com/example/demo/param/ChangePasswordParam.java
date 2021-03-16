@@ -17,7 +17,7 @@ public class ChangePasswordParam {
     @NotNull(message = "新密码不能为空")
     private String newPassword;
 
-    @NotNull(message = "请再次确认新密码")
-    private String comfirmPassword;
+    @NotNull(message = "确认密码不能为空")
+    private String confirmPassword;
 
 }

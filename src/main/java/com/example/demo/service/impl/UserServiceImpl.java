@@ -4,6 +4,7 @@ import com.example.demo.dao.UserDao;
 import com.example.demo.entity.User;
 import com.example.demo.model.UserInformation;
 import com.example.demo.param.ChangeForgotPasswordParam;
+import com.example.demo.param.ChangePasswordParam;
 import com.example.demo.param.UserRegisterParam;
 import com.example.demo.service.MailService;
 import com.example.demo.service.RedisService;
@@ -183,6 +184,17 @@ public class UserServiceImpl implements UserService , UserDetailsService {
         User user = userDao.queryByEmail(param.getEmail());
         user.setState(1);
         return userDao.update(user) == 1;
+    }
+
+    @Override
+    public boolean changePassword(ChangePasswordParam param, UserInformation userInformation) {
+        User user = this.userDao.queryById(userInformation.getId());
+        if (!passwordEncoder.matches(param.getOldPassword(), user.getPassword()))
+            throw new RuntimeException("旧密码错误,请重试");
+        else if (!param.getNewPassword().equals(param.getConfirmPassword()))
+            throw new RuntimeException("确认密码与新密码不同,请重试");
+        user.setPassword(passwordEncoder.encode(param.getNewPassword()));
+        return this.userDao.update(user) == 1;
     }
 
     /**
