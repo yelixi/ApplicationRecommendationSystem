@@ -102,4 +102,37 @@ public class UserInfoController {
             return RestResult.success(url);
         }
     }
+
+    /**
+     * 获取登陆用户信息
+     * @param authentication session
+     * @return com.example.demo.model.RestResult
+     */
+    @GetMapping("/doLoginGet")
+    public RestResult<UserInfo> loginGet(Authentication authentication){
+
+        UserInformation userInformation=(UserInformation)authentication.getPrincipal();
+        UserInfo userInfo=this.userInfoService.queryByUserId(userInformation.getId());
+        if (userInfo==null){
+            return RestResult.error("登陆信息不存在");
+        }else{
+            return RestResult.success(userInfo);
+        }
+
+    }
+
+    /**
+     * 查找特定用户信息
+     * @param UserId 用户id
+     * @return com.example.demo.model.RestResult
+     */
+    @GetMapping("/findInfo")
+    public RestResult<UserInfo> findById(Integer UserId){
+        UserInfo userInfo = userInfoService.queryByUserId(UserId);
+        if (userInfo ==null){
+            return RestResult.error("用户信息不存在");
+        }else {
+            return RestResult.success(userInfo);
+        }
+    }
 }
