@@ -25,7 +25,7 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
             "/configuration/ui",
             "/configuration/security",
             "/webjars/**",
-            "user/**",
+            "/user/**",
             "/userInfo/update"
     };
 

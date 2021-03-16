@@ -6,7 +6,6 @@ import com.example.demo.model.RestResult;
 import com.example.demo.model.UserInformation;
 import com.example.demo.service.ImageService;
 import com.example.demo.service.UserInfoService;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -49,13 +48,14 @@ public class UserInfoController {
     /**
      * 修改用户信息
      * @param userUpdateInfo 用户信息表单
-     * @param authentication session
+     * @param principal session
      * @return 是否成功
      */
     @PostMapping("/updateInfo")
-    public RestResult<UserInfo> update(@RequestBody UserInfo userUpdateInfo, Authentication authentication)
+    public RestResult<UserInfo> update(@RequestBody UserInfo userUpdateInfo,
+                                       Principal principal)
     {
-        UserInformation userInformation=(UserInformation)authentication.getPrincipal();
+        UserInformation userInformation=(UserInformation)principal;
         UserInfo userInfos=this.userInfoService.queryByUserId(userInformation.getId());
         if (userInfos==null)
         {
