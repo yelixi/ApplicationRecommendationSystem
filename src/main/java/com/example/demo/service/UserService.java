@@ -88,5 +88,12 @@ public interface UserService {
      */
     boolean unlock(UserRegisterParam param);
 
+    /**
+     * 更新密码
+     *
+     * @param param 更新密码实体类
+     * @param userInformation 用户信息
+     * @return 是否成功
+     */
     boolean changePassword(ChangePasswordParam param, UserInformation userInformation);
 }

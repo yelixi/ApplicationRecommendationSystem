@@ -1,7 +1,9 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.dao.UserDao;
+import com.example.demo.dao.UserInfoDao;
 import com.example.demo.entity.User;
+import com.example.demo.entity.UserInfo;
 import com.example.demo.model.UserInformation;
 import com.example.demo.param.ChangeForgotPasswordParam;
 import com.example.demo.param.ChangePasswordParam;
@@ -44,6 +46,9 @@ public class UserServiceImpl implements UserService , UserDetailsService {
 
     @Resource
     private MailService mailService;
+
+    @Resource
+    private UserInfoDao userInfoDao;
 
     private final Integer EXPIRE_DATE = 10 * 60 * 60;
 
@@ -120,13 +125,24 @@ public class UserServiceImpl implements UserService , UserDetailsService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole("0");
         user.setState(0);
-        boolean result = this.userDao.insert(user) == 1;
+        this.userDao.insert(user);
+
+        //创建用户信息并存入数据库
+        UserInfo userInfo = new UserInfo();
+        userInfo.setUserId(this.userDao.queryByEmail(user.getEmail()).getId());
+        userInfo.setCreateTime(LocalDateTime.now());
+        userInfo.setUpdateTime(LocalDateTime.now());
+        boolean result = userInfoDao.insert(userInfo) == 1;
+
+        //生成验证码
         String code = RandomStringUtils.randomNumeric(6);
         //生成唯一key索引
         String key = userRegisterParam.getUsername() + "_" + userRegisterParam.getEmail();
+        //将验证码存入redis
         redisService.set(key, code, EXPIRE_DATE);
         String text = userRegisterParam.getUsername() + "您好," + "您的验证码为" + code + ",有效时间为" + EXPIRE_DATE / (60 * 60) + "分钟,如非本人操作请忽略";
         String subject = "【高考智能推荐系统】验证用户";
+        //发送验证码
         mailService.sendMail(subject, userRegisterParam.getEmail(), text);
         return result;
     }
@@ -192,6 +208,13 @@ public class UserServiceImpl implements UserService , UserDetailsService {
         return userDao.update(user) == 1;
     }
 
+    /**
+     * 更新密码
+     *
+     * @param param 更新密码实体类
+     * @param userInformation 用户信息
+     * @return 是否成功
+     */
     @Override
     public boolean changePassword(ChangePasswordParam param, UserInformation userInformation) {
         User user = this.userDao.queryById(userInformation.getId());

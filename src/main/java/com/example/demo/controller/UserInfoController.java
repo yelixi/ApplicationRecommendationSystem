@@ -1,16 +1,21 @@
 package com.example.demo.controller;
 
+import com.example.demo.Vo.UserInfoVo;
+import com.example.demo.entity.User;
 import com.example.demo.entity.UserInfo;
 import com.example.demo.enums.ResultEnum;
 import com.example.demo.model.RestResult;
 import com.example.demo.model.UserInformation;
 import com.example.demo.service.ImageService;
 import com.example.demo.service.UserInfoService;
+import com.example.demo.service.UserService;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Objects;
@@ -22,13 +27,16 @@ import java.util.Objects;
  * @since 2021-03-08 23:42:46
  */
 @RestController
-@RequestMapping("userInfo")
+@RequestMapping("/userInfo")
 public class UserInfoController {
 
     @Resource
     private UserInfoService userInfoService;
     @Resource
     private ImageService imageService;
+
+    @Resource
+    private UserService userService;
     /**
      * 允许的图片路径
      */
@@ -48,22 +56,19 @@ public class UserInfoController {
     /**
      * 修改用户信息
      * @param userUpdateInfo 用户信息表单
-     * @param principal session
+     * @param authentication session
      * @return 是否成功
      */
     @PostMapping("/updateInfo")
     public RestResult<UserInfo> update(@RequestBody UserInfo userUpdateInfo,
-                                       Principal principal)
+                                       Authentication authentication)
     {
-        UserInformation userInformation=(UserInformation)principal;
+        UserInformation userInformation=(UserInformation)authentication.getPrincipal();
         UserInfo userInfos=this.userInfoService.queryByUserId(userInformation.getId());
-        if (userInfos==null)
-        {
-            userUpdateInfo.setUserId(userInformation.getId());
-            return RestResult.success(this.userInfoService.insert(userUpdateInfo));
-        }else{
-            return RestResult.success(this.userInfoService.update(userUpdateInfo));
-        }
+
+        userUpdateInfo.setUserId(userInformation.getId());
+        userUpdateInfo.setId(userInfos.getId());
+        return RestResult.success(this.userInfoService.update(userUpdateInfo));
     }
 
     /**
@@ -109,30 +114,37 @@ public class UserInfoController {
      * @return com.example.demo.model.RestResult
      */
     @GetMapping("/doLoginGet")
-    public RestResult<UserInfo> loginGet(Authentication authentication){
+    public RestResult<UserInfoVo> loginGet(Authentication authentication){
 
         UserInformation userInformation=(UserInformation)authentication.getPrincipal();
         UserInfo userInfo=this.userInfoService.queryByUserId(userInformation.getId());
+        UserInfoVo userInfoVo = new UserInfoVo(userInformation);
+        userInfoVo.setPassword("******");
+        userInfoVo.setUserInfo(userInfo);
         if (userInfo==null){
             return RestResult.error("登陆信息不存在");
         }else{
-            return RestResult.success(userInfo);
+            return RestResult.success(userInfoVo);
         }
 
     }
 
     /**
      * 查找特定用户信息
-     * @param UserId 用户id
+     * @param userId 用户id
      * @return com.example.demo.model.RestResult
      */
     @GetMapping("/findInfo")
-    public RestResult<UserInfo> findById(Integer UserId){
-        UserInfo userInfo = userInfoService.queryByUserId(UserId);
+    public RestResult<UserInfoVo> findById(@RequestParam("userId") Integer userId){
+        User user = userService.queryById(userId);
+        UserInfo userInfo = userInfoService.queryByUserId(userId);
+        UserInfoVo userInfoVo = new UserInfoVo(new UserInformation(user));
+        userInfoVo.setPassword("******");
+        userInfoVo.setUserInfo(userInfo);
         if (userInfo ==null){
             return RestResult.error("用户信息不存在");
         }else {
-            return RestResult.success(userInfo);
+            return RestResult.success(userInfoVo);
         }
     }
 }

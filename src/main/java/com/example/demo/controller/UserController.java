@@ -46,6 +46,7 @@ public class UserController {
 
     /**
      * 注册接口，注册时会向注册邮箱发送验证邮件，未通过的用户会处于未验证状态，无法登陆
+     * 注册时会创建一条用户信息条目
      *
      * @param userRegisterParam 注册的表单
      * @param bindingResult     表单验证参数
@@ -106,6 +107,13 @@ public class UserController {
         return RestResult.success(this.userService.unlock(param));
     }
 
+    /**
+     * 修改密码接口
+     * @param param 修改密码实体类
+     * @param bindingResult 表单验证参数
+     * @param authentication session
+     * @return 是否成功
+     */
     @PostMapping("/changePassword")
     public RestResult<Boolean> changPassword(@Validated @RequestBody ChangePasswordParam param,
                                              BindingResult bindingResult,

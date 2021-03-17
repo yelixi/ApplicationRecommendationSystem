@@ -6,6 +6,7 @@ import com.example.demo.service.UserInfoService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -72,6 +73,7 @@ public class UserInfoServiceImpl implements UserInfoService {
      */
     @Override
     public UserInfo update(UserInfo userInfo) {
+        userInfo.setUpdateTime(LocalDateTime.now());
         this.userInfoDao.update(userInfo);
         return this.queryById(userInfo.getId());
     }
