@@ -4,17 +4,14 @@ import com.example.demo.entity.User;
 import com.example.demo.model.RestResult;
 import com.example.demo.model.UserInformation;
 import com.example.demo.param.ChangeForgotPasswordParam;
-import com.example.demo.param.ChangePasswordParam;
 import com.example.demo.param.UserRegisterParam;
 import com.example.demo.service.UserService;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.security.Principal;
 import java.util.Objects;
 
 /**
