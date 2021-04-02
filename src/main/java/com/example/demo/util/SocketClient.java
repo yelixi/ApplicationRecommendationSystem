@@ -22,7 +22,7 @@ public class SocketClient {
      * @param param  传参(json格式)
      * @return java.lang.Object
      */
-    public static Object socketHandle(String method, Object param) {
+    public static Object socketHandle(Integer method, Object param) {
         StringBuilder sb = null;
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("method", method);
