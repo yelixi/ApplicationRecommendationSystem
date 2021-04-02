@@ -18,7 +18,8 @@ public class TestController {
         User user=new User();
         user.setUsername("test");
         user.setPhone("12355");
-        Object obj=SocketClient.socketHandle("getAll", null);
-        return JSONObject.toJSONString(obj);
+        //Object obj=SocketClient.socketHandle("getAll", null);
+        //return JSONObject.toJSONString(obj);
+        return null;
     }
 }

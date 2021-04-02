@@ -8,11 +8,4 @@ import lombok.Data;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class SelectCondition extends SearchCondition {
 
-    public String schoolCode;
-    public String plan;
-    public String accessMajor;
-    public String detial;
-    public String recommendReason;
-    public String analyse;
-
 }
