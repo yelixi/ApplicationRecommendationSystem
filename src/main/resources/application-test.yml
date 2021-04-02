@@ -8,8 +8,8 @@ spring:
     host: localhost
   mail:
     host: smtp.qq.com
-    username: 2790673868@qq.com
-    password: kxwxfencqhiodfcf
+    username:
+    password:
     default-encoding: UTF-8
     port: 465
     properties:

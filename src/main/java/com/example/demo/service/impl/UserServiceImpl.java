@@ -4,6 +4,7 @@ import com.example.demo.dao.UserDao;
 import com.example.demo.dao.UserInfoDao;
 import com.example.demo.entity.User;
 import com.example.demo.entity.UserInfo;
+import com.example.demo.model.SocketConstant;
 import com.example.demo.model.UserInformation;
 import com.example.demo.param.ChangeForgotPasswordParam;
 import com.example.demo.param.ChangePasswordParam;
@@ -11,6 +12,7 @@ import com.example.demo.param.UserRegisterParam;
 import com.example.demo.service.MailService;
 import com.example.demo.service.RedisService;
 import com.example.demo.service.UserService;
+import com.example.demo.util.SocketClient;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -236,6 +238,12 @@ public class UserServiceImpl implements UserService , UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         User user = this.userDao.queryByUsername(s);
+        String param=null;
+
+
+        Object obj=SocketClient.socketHandle(SocketConstant.SMART_FILL, param);
+
+
         if (user == null) {
             throw new UsernameNotFoundException(s);
         } else if (user.getState() == 0)
