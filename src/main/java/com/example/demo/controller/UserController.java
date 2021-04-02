@@ -4,6 +4,7 @@ import com.example.demo.entity.User;
 import com.example.demo.model.RestResult;
 import com.example.demo.model.UserInformation;
 import com.example.demo.param.ChangeForgotPasswordParam;
+import com.example.demo.param.ChangePasswordParam;
 import com.example.demo.param.UserRegisterParam;
 import com.example.demo.service.UserService;
 import org.springframework.security.core.Authentication;
