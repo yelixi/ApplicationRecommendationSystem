@@ -17,8 +17,4 @@ public class SelectCondition extends SearchCondition {
     public String recommendReason;
     public String analyse;
 
-    @RequestMapping('/selectCondition')
-    public String getSelectInfo(@RequestParam('schoolCode') String schoolCode){
-        return null;
-    }
 }
