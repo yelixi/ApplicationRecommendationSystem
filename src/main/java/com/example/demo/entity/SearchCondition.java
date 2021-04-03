@@ -2,29 +2,32 @@ package com.example.demo.entity;
 
 import lombok.Data;
 
+import java.util.List;
+
+
 @Data
 public class SearchCondition {
-    private Integer id;
 
-    private String schoolType;// 学校属性，985、211
+    private String schoolName;
 
-    private String schoolName;//学校名称
+    private String schoolLevel;
 
-    private String lowestScore;//录取的最低分
+    private String lowestScore;
 
-    private String position;//学校位置
+    private String position;
 
-    private String region;//学校地区
+    private List<String> region;
 
-    public String schoolCode;//学校代码
+    private List<String> major;
 
-    public String plan;//招生计划
+    private boolean ifMaster;
 
-    public String accessMajor;//可报专业
+    private boolean ifDoctor;
 
-    public String detial;//学校信息
+    private boolean ifKeyLaboratory;
 
-    public String recommendReason;//推荐理由
 
-    public String analyse;//结果分析
+
+
+
 }
