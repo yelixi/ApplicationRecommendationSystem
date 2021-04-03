@@ -55,30 +55,32 @@ public class UserInfoController {
 
     /**
      * 修改用户信息
+     *
      * @param userUpdateInfo 用户信息表单
      * @param authentication session
      * @return 是否成功
      */
     @PostMapping("/updateInfo")
-    public RestResult<UserInfo> update(@RequestBody UserInfo userUpdateInfo,
-                                       Authentication authentication)
-    {
-        UserInformation userInformation=(UserInformation)authentication.getPrincipal();
-        UserInfo userInfos=this.userInfoService.queryByUserId(userInformation.getId());
-
-        userUpdateInfo.setUserId(userInformation.getId());
-        userUpdateInfo.setId(userInfos.getId());
-        return RestResult.success(this.userInfoService.update(userUpdateInfo));
+    public RestResult<UserInfo> update(@RequestBody UserInfo userUpdateInfo, Authentication authentication) {
+        UserInformation userInformation = (UserInformation) authentication.getPrincipal();
+        UserInfo userInfos = this.userInfoService.queryByUserId(userInformation.getId());
+        if (userInfos == null) {
+            userUpdateInfo.setUserId(userInformation.getId());
+            return RestResult.success(this.userInfoService.insert(userUpdateInfo));
+        } else {
+            return RestResult.success(this.userInfoService.update(userUpdateInfo));
+        }
     }
 
     /**
      * 头像上传
+     *
      * @param file 图片文件
      * @param type 类型 如：avatar
      * @return com.example.demo.model.RestResult
      */
     @PostMapping("uploadAvatar")
-    public RestResult<String> uploadAvatar(@RequestParam("file") MultipartFile file, String type, Principal principal) {
+    public RestResult<String> uploadAvatar(@RequestParam("file") MultipartFile file, String type, Authentication authentication) {
         if (file == null) {
             return RestResult.error("file不存在");
         }
@@ -96,7 +98,7 @@ public class UserInfoController {
         if (url == null) {
             return RestResult.error("图片 " + file.getOriginalFilename() + " 上传失败");
         } else {
-            UserInformation userInformation = (UserInformation) principal;
+            UserInformation userInformation = (UserInformation) authentication.getPrincipal();
             if (userInformation == null) {
                 return RestResult.error(ResultEnum.NO_PERMISSION_ACCESS);
             }

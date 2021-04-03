@@ -5,7 +5,9 @@ mybatis:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   mapper-locations: classpath:mapper/*.xml
 
-
+socket:
+  host: 127.0.0.1
+  port: 9007
 # 文件处理
 
 media:

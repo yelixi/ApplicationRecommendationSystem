@@ -1,7 +1,7 @@
 package com.example.demo.conf;
 
 import com.example.demo.model.RestResult;
-import com.example.demo.until.ResponseUtil;
+import com.example.demo.util.ResponseUtil;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
