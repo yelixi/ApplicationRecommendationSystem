@@ -4,6 +4,7 @@ import com.example.demo.entity.SchoolResult;
 import com.example.demo.entity.SearchCondition;
 import com.example.demo.model.MajorConditions;
 import com.example.demo.model.MajorInformation;
+import com.fasterxml.jackson.core.JsonProcessingException;
 
 import java.util.List;
 
@@ -28,7 +29,7 @@ public interface ConditionService {
      * @param searchCondition
      * @return
      */
-    List<SchoolResult> selectAll(SearchCondition searchCondition);
+    List<SchoolResult> selectAll(SearchCondition searchCondition) throws JsonProcessingException;
 
 
     /**

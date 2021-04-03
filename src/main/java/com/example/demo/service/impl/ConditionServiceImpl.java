@@ -8,6 +8,8 @@ import com.example.demo.model.MajorInformation;
 import com.example.demo.model.SocketConstant;
 import com.example.demo.service.ConditionService;
 import com.example.demo.util.SocketClient;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -44,14 +46,23 @@ public class ConditionServiceImpl implements ConditionService {
     public List<SchoolResult> selectByAllConditions(int offset, int limits){
         return this.searchConditionDao.selectByAllConditions(offset, limits);
     }
-    /**
-     * 通过实体作为筛选条件查询
-     * @param searchCondition
-     * @return
-     */
+
+
     @Override
-    public List<SchoolResult> selectAll(SearchCondition searchCondition){
-        return this.searchConditionDao.selectAll(searchCondition);
+    public List<SchoolResult> selectAll(SearchCondition searchCondition) throws JsonProcessingException {
+            List<SchoolResult> list = new ArrayList<>();
+            try {
+                Object obj = SocketClient.socketHandle(SocketConstant.SELECT_MAJOR, new ObjectMapper().writeValueAsString(searchCondition));
+                if (obj instanceof ArrayList<?>) {
+                    for (Object o : (List<?>) obj) {
+                        list.add((SchoolResult) o);
+                    }
+                }
+            }catch (JsonProcessingException e){
+                e.printStackTrace();
+            }
+            return list;
+
     }
 
     @Override
