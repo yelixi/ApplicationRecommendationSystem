@@ -1,6 +1,7 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.dao.SearchConditionDao;
+import com.example.demo.entity.SchoolResult;
 import com.example.demo.entity.SearchCondition;
 import com.example.demo.model.MajorConditions;
 import com.example.demo.model.MajorInformation;
@@ -25,12 +26,12 @@ public class ConditionServiceImpl implements ConditionService {
     /**
      * 通过ID查询单条数据
      *
-     * @param id 主键
+     * @param  name 学校名称
      * @return 实例对象
      */
     @Override
-    public SearchCondition selectById(Integer id){
-        return this.searchConditionDao.selectById(id);
+    public SchoolResult selectByName(String name){
+        return this.searchConditionDao.selectByName(name);
     }
     /**
      * 查询多条数据
@@ -40,7 +41,7 @@ public class ConditionServiceImpl implements ConditionService {
      * @return 对象列表
      */
     @Override
-    public List<SearchCondition> selectByAllConditions(int offset,int limits){
+    public List<SchoolResult> selectByAllConditions(int offset, int limits){
         return this.searchConditionDao.selectByAllConditions(offset, limits);
     }
     /**
@@ -49,7 +50,7 @@ public class ConditionServiceImpl implements ConditionService {
      * @return
      */
     @Override
-    public List<SearchCondition> selectAll(SearchCondition searchCondition){
+    public List<SchoolResult> selectAll(SearchCondition searchCondition){
         return this.searchConditionDao.selectAll(searchCondition);
     }
 
