@@ -1,5 +1,7 @@
 package com.example.demo.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.example.demo.dao.SearchConditionDao;
 import com.example.demo.entity.SchoolResult;
 import com.example.demo.entity.SearchCondition;
@@ -56,8 +58,9 @@ public class ConditionServiceImpl implements ConditionService {
 
     @Override
     public List<MajorInformation> selectMajor(MajorConditions majorConditions) {
-       Object obj = SocketClient.socketHandle(SocketConstant.SELECT_MAJOR,majorConditions);
-       List<MajorInformation> list = new ArrayList<>();
+        String majorJson = JSONObject.toJSONString(majorConditions);
+        Object obj = SocketClient.socketHandle(SocketConstant.SELECT_MAJOR, majorJson);
+        List<MajorInformation> list = new ArrayList<>();
         if (obj instanceof ArrayList<?>) {
             for (Object o : (List<?>) obj) {
                 list.add((MajorInformation) o);
