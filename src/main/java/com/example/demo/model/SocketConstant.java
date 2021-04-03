@@ -37,6 +37,8 @@ public class SocketConstant {
      */
     public static final Integer SEE_UNIVERSITY=1;
 
+    public static final Integer SELECT_MAJOR=2;
+
     @Value("${socket.host}")
     public void setServerHost(String host) {
         SERVER_HOST = host;

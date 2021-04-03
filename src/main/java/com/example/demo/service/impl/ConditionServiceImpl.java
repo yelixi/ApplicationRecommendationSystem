@@ -2,10 +2,15 @@ package com.example.demo.service.impl;
 
 import com.example.demo.dao.SearchConditionDao;
 import com.example.demo.entity.SearchCondition;
+import com.example.demo.model.MajorConditions;
+import com.example.demo.model.MajorInformation;
+import com.example.demo.model.SocketConstant;
 import com.example.demo.service.ConditionService;
+import com.example.demo.util.SocketClient;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -46,5 +51,17 @@ public class ConditionServiceImpl implements ConditionService {
     @Override
     public List<SearchCondition> selectAll(SearchCondition searchCondition){
         return this.searchConditionDao.selectAll(searchCondition);
+    }
+
+    @Override
+    public List<MajorInformation> selectMajor(MajorConditions majorConditions) {
+       Object obj = SocketClient.socketHandle(SocketConstant.SELECT_MAJOR,majorConditions);
+       List<MajorInformation> list = new ArrayList<>();
+        if (obj instanceof ArrayList<?>) {
+            for (Object o : (List<?>) obj) {
+                list.add((MajorInformation) o);
+            }
+        }
+        return list;
     }
 }

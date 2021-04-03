@@ -1,6 +1,8 @@
 package com.example.demo.service;
 
 import com.example.demo.entity.SearchCondition;
+import com.example.demo.model.MajorConditions;
+import com.example.demo.model.MajorInformation;
 
 import java.util.List;
 
@@ -30,4 +32,9 @@ public interface ConditionService {
     *
     * */
 
+    /**
+     * 查询专业
+     */
+
+    List<MajorInformation> selectMajor(MajorConditions majorConditions);
 }
