@@ -115,7 +115,7 @@ public class UserServiceImpl implements UserService , UserDetailsService {
      * @param userRegisterParam 封装的注册参数
      * @return 是否成功
      */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public boolean register(UserRegisterParam userRegisterParam) {
         User user = new User();

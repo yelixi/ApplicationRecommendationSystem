@@ -126,17 +126,17 @@ public class RedisService {
      */
 
     public boolean set(String key, Object value, long time) {
-        try {
+        //try {
             if (time > 0) {
                 redisTemplate.opsForValue().set(key, value, time, TimeUnit.SECONDS);
             } else {
                 set(key, value);
             }
             return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
+        //} catch (Exception e) {
+        //    e.printStackTrace();
+        //    return false;
+        //}
     }
 
 
