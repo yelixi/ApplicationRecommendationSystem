@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.example.demo.entity.User;
+import com.example.demo.model.SocketConstant;
 import com.example.demo.util.SocketClient;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,8 +19,8 @@ public class TestController {
         User user=new User();
         user.setUsername("test");
         user.setPhone("12355");
-        //Object obj=SocketClient.socketHandle("getAll", null);
-        //return JSONObject.toJSONString(obj);
-        return null;
+
+        Object obj=SocketClient.socketHandle(SocketConstant.SEE_UNIVERSITY, null);
+        return JSONObject.toJSONString(obj);
     }
 }

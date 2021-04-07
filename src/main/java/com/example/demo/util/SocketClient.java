@@ -5,6 +5,7 @@ import com.example.demo.model.SocketConstant;
 
 import java.io.*;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,15 +40,12 @@ public class SocketClient {
             String jsonParam = JSONObject.toJSONString(paramMap);
             System.out.println(jsonParam);
             out.print(jsonParam);
-            // 告诉服务进程，内容发送完毕，可以开始处理
             out.print(SocketConstant.INTERRUPT_FLAG);
 
-            // 获取服务进程的输入流
             InputStream is = socket.getInputStream();
-            BufferedReader br = new BufferedReader(new InputStreamReader(is, "utf-8"));
+            BufferedReader br = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
             String tmp;
             sb = new StringBuilder();
-            // 读取内容
             while ((tmp = br.readLine()) != null) {
                 sb.append(tmp).append('\n');
             }
