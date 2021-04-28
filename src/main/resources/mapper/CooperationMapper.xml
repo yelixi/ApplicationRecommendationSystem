@@ -119,7 +119,7 @@
     select
     <include refid="Base_Column_List" />
     from cooperation
-    where open_id = #{openId,jdbcType=VARCHAR} and com_name = #{comName.jdbcType=VARCHAR}
+    where open_id = #{openId,jdbcType=VARCHAR} and com_name = #{comName,jdbcType=VARCHAR}
   </select>
 
   <select id="selectByOpenId" parameterType="java.lang.String" resultMap="BaseResultMap">

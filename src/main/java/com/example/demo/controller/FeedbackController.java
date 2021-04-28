@@ -5,10 +5,10 @@ import com.example.demo.model.RestResult;
 import com.example.demo.model.UserInformation;
 import com.example.demo.service.FeedbackService;
 import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 
@@ -16,8 +16,8 @@ import javax.annotation.Resource;
  * Created by 林夕
  * Date 2021/4/27 23:12
  */
-@Controller
 @RequestMapping("/feedback")
+@RestController
 public class FeedbackController {
 
     @Resource

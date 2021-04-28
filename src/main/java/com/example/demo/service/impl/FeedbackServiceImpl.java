@@ -23,6 +23,6 @@ public class FeedbackServiceImpl implements FeedbackService {
     public boolean add(Feedback feedback, UserInformation u) {
         feedback.setId(u.getId());
         feedback.setUpdateTime(new Date());
-        return feedbackMapper.updateByPrimaryKey(feedback)==1;
+        return feedbackMapper.insert(feedback)==1;
     }
 }

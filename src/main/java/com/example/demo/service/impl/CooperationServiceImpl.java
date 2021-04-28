@@ -4,6 +4,7 @@ import com.example.demo.dao.CooperationMapper;
 import com.example.demo.entity.Cooperation;
 import com.example.demo.model.UserInformation;
 import com.example.demo.service.CooperationService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -14,6 +15,7 @@ import java.util.Date;
  * Date 2021/4/27 21:45
  */
 @Service
+@Slf4j
 public class CooperationServiceImpl implements CooperationService {
 
     @Resource
