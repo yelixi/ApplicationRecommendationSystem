@@ -14,6 +14,13 @@ media:
   dir: ./ArsMedia/
 
 spring:
+  main:
+    allow-bean-definition-overriding: true
+  data:
+    neo4j:
+      uri: bolt://8.136.211.96:7687
+      username: neo4j
+      password: 123456
   profiles:
     active: "@build.profile.id@"
   config:
@@ -44,3 +51,5 @@ spring:
   web:
     resources:
       static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,file:${media.dir}
+
+
