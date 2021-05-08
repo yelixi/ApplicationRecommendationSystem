@@ -1,16 +1,13 @@
 package com.example.demo.entity;
 
-
-
-
-
-import org.neo4j.ogm.annotation.GeneratedValue;
-import org.neo4j.ogm.annotation.Id;
 import org.neo4j.ogm.annotation.NodeEntity;
+import org.springframework.data.neo4j.core.schema.GeneratedValue;
+import org.springframework.data.neo4j.core.schema.Id;
+import org.springframework.data.neo4j.core.schema.Node;
 
 import java.io.Serializable;
 
-@NodeEntity(label = "school")
+@Node(labels = "school")
 public class School implements Serializable {
 
     @Id
@@ -25,10 +22,10 @@ public class School implements Serializable {
 
     private String introduction;
 
-    public School(){
+    public  School(){
 
     }
-    public School(String name, String biaoshima, String school_code, String introduction){
+    public School(String name,String biaoshima,String school_code,String introduction){
         this.name = name;
         this.biaoshima=biaoshima;
         this.school_code =school_code;

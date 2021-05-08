@@ -26,7 +26,8 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
             "/configuration/security",
             "/webjars/**",
             "/user/**",
-            "/userInfo/update"
+            "/userInfo/update",
+            "/school/**"
     };
 
     @Override
