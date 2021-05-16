@@ -240,7 +240,7 @@ public class UserServiceImpl implements UserService , UserDetailsService {
         String param=null;
 
 
-        Object obj=SocketClient.socketHandle(SocketConstant.SMART_FILL, param);
+        //Object obj=SocketClient.socketHandle(SocketConstant.SMART_FILL, param);
 
 
         if (user == null) {

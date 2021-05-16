@@ -22,12 +22,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 
     private static final String[] NO_AUTH_LIST = {
-            "/configuration/ui",
+            /*"/configuration/ui",
             "/configuration/security",
             "/webjars/**",
             "/user/**",
-            "/userInfo/update",
-            "/school/**"
+            "/userInfo/**",
+            "/school/**"*/
+            "/**"
     };
 
     @Override

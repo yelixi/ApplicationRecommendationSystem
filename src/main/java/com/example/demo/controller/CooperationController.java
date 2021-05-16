@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.Cooperation;
+import com.example.demo.entity.User;
 import com.example.demo.model.RestResult;
 import com.example.demo.model.UserInformation;
 import com.example.demo.service.CooperationService;
@@ -21,9 +22,12 @@ public class CooperationController {
     private CooperationService cooperationService;
 
     @PostMapping("/cooperation")
-    public RestResult<Boolean> addCooperation(@RequestBody Cooperation cooperation,
-                                              Authentication authentication){
-        UserInformation u = (UserInformation) authentication.getPrincipal();
+    public RestResult<Boolean> addCooperation(@RequestBody Cooperation cooperation
+                                              /*,Authentication authentication*/){
+        //UserInformation u = (UserInformation) authentication.getPrincipal();
+        User user = new User();
+        user.setId(1);
+        UserInformation u = new UserInformation(user);
         return RestResult.success(cooperationService.add(cooperation,u));
     }
 

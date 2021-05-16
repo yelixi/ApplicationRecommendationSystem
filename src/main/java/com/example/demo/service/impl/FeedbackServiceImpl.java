@@ -21,7 +21,7 @@ public class FeedbackServiceImpl implements FeedbackService {
 
     @Override
     public boolean add(Feedback feedback, UserInformation u) {
-        feedback.setId(u.getId());
+        feedback.setUserId(u.getId());
         feedback.setUpdateTime(new Date());
         return feedbackMapper.insert(feedback)==1;
     }

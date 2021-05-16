@@ -14,7 +14,7 @@
     id, open_id, detail, name, tel_number, user_id, update_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from feedback
     where id = #{id,jdbcType=INTEGER}
@@ -24,11 +24,11 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.example.demo.entity.Feedback">
-    insert into feedback (id, open_id, detail, 
-      name, tel_number, user_id, 
+    insert into feedback (id, open_id, detail,
+      name, tel_number, user_id,
       update_time)
-    values (#{id,jdbcType=INTEGER}, #{openId,jdbcType=INTEGER}, #{detail,jdbcType=VARCHAR}, 
-      #{name,jdbcType=VARCHAR}, #{telNumber,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=INTEGER}, #{openId,jdbcType=INTEGER}, #{detail,jdbcType=VARCHAR},
+      #{name,jdbcType=VARCHAR}, #{telNumber,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER},
       #{updateTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.example.demo.entity.Feedback">

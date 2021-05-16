@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 
 <generatorConfiguration>
-    <classPathEntry location="/C:/Users/86153/Downloads/mysql-connector-java-5.1.6.jar" />
+    <classPathEntry location="/C:/Users/86153/Downloads/mysql-connector-java-5.1.6-bin.jar" />
 
     <context id="DB2Tables" targetRuntime="MyBatis3">
         <plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin" />
@@ -26,19 +26,22 @@
 
         <javaModelGenerator targetPackage="com.example.demo.entity" targetProject="src/main/java">
             <property name="enableSubPackages" value="true" />
-            <property name="trimStrings" value="true" />
+<!--            <property name="trimStrings" value="true" />-->
         </javaModelGenerator>
 
         <sqlMapGenerator targetPackage="mapper"  targetProject="src/main/resources">
             <property name="enableSubPackages" value="true" />
         </sqlMapGenerator>
 
-        <javaClientGenerator type="XMLMAPPER" targetPackage="com.example.demo.mapper"  targetProject="src/main/java">
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.example.demo.dao"  targetProject="src/main/java">
             <property name="enableSubPackages" value="true" />
         </javaClientGenerator>
 
-        <table tableName="user" domainObjectName="User" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>
-        <table tableName="user_info" domainObjectName="UserInfo" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>
+<!--        <table tableName="user" domainObjectName="User" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>-->
+<!--        <table tableName="user_info" domainObjectName="UserInfo" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>-->
+<!--        <table tableName="cooperation" domainObjectName="Cooperation" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>-->
+<!--        <table tableName="feedback" domainObjectName="Feedback" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>-->
+        <table tableName="consult" domainObjectName="Consult" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>
 <!--        <table tableName="homework" domainObjectName="Homework" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>-->
 <!--        <table tableName="anonymous" domainObjectName="Anonymous" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>-->
 <!--        <table tableName="teaching_evaluation" domainObjectName="TeachingEvaluation" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>-->

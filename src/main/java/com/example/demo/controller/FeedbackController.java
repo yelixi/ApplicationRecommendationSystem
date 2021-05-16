@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.Feedback;
+import com.example.demo.entity.User;
 import com.example.demo.model.RestResult;
 import com.example.demo.model.UserInformation;
 import com.example.demo.service.FeedbackService;
@@ -24,9 +25,12 @@ public class FeedbackController {
     private FeedbackService feedbackService;
 
     @PostMapping("/addFeedback")
-    public RestResult<Boolean> addFeedback(@RequestBody Feedback feedback ,
-                                           Authentication authentication){
-        UserInformation u = (UserInformation)authentication.getPrincipal();
+    public RestResult<Boolean> addFeedback(@RequestBody Feedback feedback/* ,
+                                           Authentication authentication*/){
+//        UserInformation u = (UserInformation)authentication.getPrincipal();
+        User user = new User();
+        user.setId(1);
+        UserInformation u = new UserInformation(user);
         return RestResult.success(feedbackService.add(feedback,u));
     }
 }
