@@ -21,6 +21,7 @@ public class UserInformation extends User implements UserDetails {
         BeanUtils.copyProperties(user, this);
     }
 
+    public UserInformation(){}
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();

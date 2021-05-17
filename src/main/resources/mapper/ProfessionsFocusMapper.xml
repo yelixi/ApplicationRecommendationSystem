@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.dao.ProfessionsFocusMapper">
+  <resultMap id="BaseResultMap" type="com.example.demo.entity.ProfessionsFocus">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="open_id" jdbcType="INTEGER" property="openId" />
+    <result column="professions" jdbcType="VARCHAR" property="professions" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, open_id, professions
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from professions_focus
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from professions_focus
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.example.demo.entity.ProfessionsFocus">
+    insert into professions_focus (id, open_id, professions
+      )
+    values (#{id,jdbcType=INTEGER}, #{openId,jdbcType=INTEGER}, #{professions,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.demo.entity.ProfessionsFocus">
+    insert into professions_focus
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="openId != null">
+        open_id,
+      </if>
+      <if test="professions != null">
+        professions,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="openId != null">
+        #{openId,jdbcType=INTEGER},
+      </if>
+      <if test="professions != null">
+        #{professions,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.entity.ProfessionsFocus">
+    update professions_focus
+    <set>
+      <if test="openId != null">
+        open_id = #{openId,jdbcType=INTEGER},
+      </if>
+      <if test="professions != null">
+        professions = #{professions,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.demo.entity.ProfessionsFocus">
+    update professions_focus
+    set open_id = #{openId,jdbcType=INTEGER},
+      professions = #{professions,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="findAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from professions_focus
+    where open_id = #{openId,jdbcType=VARCHAR}
+  </select>
+</mapper>

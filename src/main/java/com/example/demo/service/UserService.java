@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 
+import com.example.demo.Vo.UserFocusVo;
 import com.example.demo.entity.User;
 import com.example.demo.model.UserInformation;
 import com.example.demo.param.ChangeForgotPasswordParam;
@@ -96,4 +97,6 @@ public interface UserService {
      * @return 是否成功
      */
     boolean changePassword(ChangePasswordParam param, UserInformation userInformation);
+
+    UserFocusVo getFocusInfo(String openId);
 }

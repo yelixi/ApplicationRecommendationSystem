@@ -1,21 +1,23 @@
 package com.example.demo.controller;
 
+import com.example.demo.Vo.UserFocusVo;
 import com.example.demo.Vo.UserInfoVo;
+import com.example.demo.entity.OpenId;
 import com.example.demo.entity.User;
 import com.example.demo.entity.UserInfo;
 import com.example.demo.enums.ResultEnum;
 import com.example.demo.model.RestResult;
 import com.example.demo.model.UserInformation;
 import com.example.demo.service.ImageService;
+import com.example.demo.service.OpenIdService;
 import com.example.demo.service.UserInfoService;
 import com.example.demo.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import java.security.Principal;
-import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Objects;
@@ -27,6 +29,7 @@ import java.util.Objects;
  * @since 2021-03-08 23:42:46
  */
 @RestController
+@Slf4j
 @RequestMapping("/userInfo")
 public class UserInfoController {
 
@@ -37,6 +40,10 @@ public class UserInfoController {
 
     @Resource
     private UserService userService;
+
+    @Resource
+    private OpenIdService openIdService;
+
     /**
      * 允许的图片路径
      */
@@ -57,19 +64,46 @@ public class UserInfoController {
      * 修改用户信息
      *
      * @param userUpdateInfo 用户信息表单
-     * @param authentication session
      * @return 是否成功
      */
-    @PostMapping("/updateInfo")
-    public RestResult<UserInfo> update(@RequestBody UserInfo userUpdateInfo, Authentication authentication) {
-        UserInformation userInformation = (UserInformation) authentication.getPrincipal();
+    @PutMapping("/updateUserInfo")
+    public RestResult<UserInfoVo> update(@RequestBody UserInfoVo userUpdateInfo) {
+        /*UserInformation userInformation = (UserInformation) authentication.getPrincipal();
         UserInfo userInfos = this.userInfoService.queryByUserId(userInformation.getId());
         if (userInfos == null) {
             userUpdateInfo.setUserId(userInformation.getId());
             return RestResult.success(this.userInfoService.insert(userUpdateInfo));
         } else {
             return RestResult.success(this.userInfoService.update(userUpdateInfo));
+        }*/
+        //获取openId
+        OpenId open = openIdService.selectByOpenId(userUpdateInfo.getOpenId());
+        //获取传入的userInfo
+        UserInfo userInfo = userUpdateInfo.getUserInfo();
+        //获取表中是否已有用户信息
+        UserInfo userInfos = userInfoService.queryByUserId(open.getUserId());
+        //User user = userService.queryById(open.getUserId());
+        //UserInfoVo userInfoVo = new UserInfoVo(new UserInformation(user));
+        //设置唯一索引UserId
+        userInfo.setUserId(open.getUserId());
+        if (userInfos == null) {
+            //如果表中没有数据则插入
+            //userUpdateInfo.setUserInfo(userInfo);
+            this.userInfoService.insert(userInfo);
+        } else {
+            //否则更新
+            this.userInfoService.update(userInfo);
         }
+        //
+        userUpdateInfo.setId(open.getUserId());
+        User users = userUpdateInfo;
+        userService.update(users);
+        User user = userService.queryById(open.getUserId());
+        UserInfoVo userInfoVo = new UserInfoVo(new UserInformation(user));
+        userInfoVo.setPassword("******");
+        userInfoVo.setUserInfo(userInfos);
+        userInfoVo.setOpenId(open.getOpenId());
+        return RestResult.success(userInfoVo);
     }
 
     /**
@@ -112,10 +146,10 @@ public class UserInfoController {
 
     /**
      * 获取登陆用户信息
-     * @param authentication session
+     * @param openId 用户唯一索引openId
      * @return com.example.demo.model.RestResult
      */
-    @GetMapping("/doLoginGet")
+    /*@GetMapping("/doLoginGet")
     public RestResult<UserInfoVo> loginGet(Authentication authentication){
 
         UserInformation userInformation=(UserInformation)authentication.getPrincipal();
@@ -128,6 +162,33 @@ public class UserInfoController {
         }else{
             return RestResult.success(userInfoVo);
         }
+
+    }*/
+
+    @GetMapping("/doLoginGet")
+    public RestResult<UserInfoVo> loginGet(@RequestParam("openId") String openId){
+        OpenId open = openIdService.selectByOpenId(openId);
+        UserInfo userInfo = userInfoService.queryByUserId(open.getUserId());
+        User user = userService.queryById(open.getUserId());
+        UserInfoVo userInfoVo = new UserInfoVo(new UserInformation(user));
+        userInfoVo.setPassword("******");
+        userInfoVo.setUserInfo(userInfo);
+        userInfoVo.setOpenId(openId);
+        if (userInfo==null){
+            return RestResult.error("登陆信息不存在");
+        }else {
+            return RestResult.success(userInfoVo);
+        }
+        /*UserInformation userInformation=(UserInformation)authentication.getPrincipal();
+        UserInfo userInfo=this.userInfoService.queryByUserId(userInformation.getId());
+        UserInfoVo userInfoVo = new UserInfoVo(userInformation);
+        userInfoVo.setPassword("******");
+        userInfoVo.setUserInfo(userInfo);
+        if (userInfo==null){
+            return RestResult.error("登陆信息不存在");
+        }else{
+            return RestResult.success(userInfoVo);
+        }*/
 
     }
 
@@ -148,5 +209,10 @@ public class UserInfoController {
         }else {
             return RestResult.success(userInfoVo);
         }
+    }
+
+    @GetMapping("/getFocusInfo")
+    RestResult<UserFocusVo> getFocusInfo(@RequestParam("openId") String openId){
+        return RestResult.success(userService.getFocusInfo(openId));
     }
 }

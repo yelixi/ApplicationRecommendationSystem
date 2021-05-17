@@ -3,6 +3,7 @@ package com.example.demo.service.impl;
 import com.example.demo.dao.UserInfoDao;
 import com.example.demo.entity.UserInfo;
 import com.example.demo.service.UserInfoService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -16,6 +17,7 @@ import java.util.List;
  * @since 2021-03-08 23:42:45
  */
 @Service("userInfoService")
+@Slf4j
 public class UserInfoServiceImpl implements UserInfoService {
     @Resource
     private UserInfoDao userInfoDao;
@@ -73,9 +75,10 @@ public class UserInfoServiceImpl implements UserInfoService {
      */
     @Override
     public UserInfo update(UserInfo userInfo) {
+        log.error(userInfo.toString());
         userInfo.setUpdateTime(LocalDateTime.now());
         this.userInfoDao.update(userInfo);
-        return this.queryById(userInfo.getId());
+        return userInfoDao.queryByUserId(userInfo.getUserId());
     }
 
     /**

@@ -15,9 +15,14 @@ import lombok.ToString;
 @Setter
 @ToString
 public class UserInfoVo extends UserInformation {
+    String openId;
 
     public UserInfoVo(User user) {
         super(user);
+    }
+
+    public UserInfoVo(){
+        super();
     }
 
     private UserInfo userInfo;

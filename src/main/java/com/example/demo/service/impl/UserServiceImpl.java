@@ -1,10 +1,8 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.dao.UserDao;
-import com.example.demo.dao.UserInfoDao;
-import com.example.demo.entity.User;
-import com.example.demo.entity.UserInfo;
-import com.example.demo.model.SocketConstant;
+import com.example.demo.Vo.UserFocusVo;
+import com.example.demo.dao.*;
+import com.example.demo.entity.*;
 import com.example.demo.model.UserInformation;
 import com.example.demo.param.ChangeForgotPasswordParam;
 import com.example.demo.param.ChangePasswordParam;
@@ -12,7 +10,6 @@ import com.example.demo.param.UserRegisterParam;
 import com.example.demo.service.MailService;
 import com.example.demo.service.RedisService;
 import com.example.demo.service.UserService;
-import com.example.demo.util.SocketClient;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,9 +20,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -50,6 +46,15 @@ public class UserServiceImpl implements UserService , UserDetailsService {
 
     @Resource
     private UserInfoDao userInfoDao;
+
+    @Resource
+    private CollegesFocusMapper collegesFocusMapper;
+
+    @Resource
+    private ProfessionsFocusMapper professionsFocusMapper;
+
+    @Resource
+    private PapersFocusMapper papersFocusMapper;
 
     private final Integer EXPIRE_DATE = 10 * 60 * 60;
 
@@ -225,6 +230,31 @@ public class UserServiceImpl implements UserService , UserDetailsService {
             throw new RuntimeException("确认密码与新密码不同,请重试");
         user.setPassword(passwordEncoder.encode(param.getNewPassword()));
         return this.userDao.update(user) == 1;
+    }
+
+    @Override
+    public UserFocusVo getFocusInfo(String openId) {
+        List<CollegesFocus> collegesFocusList = collegesFocusMapper.findAll(openId);
+        List<ProfessionsFocus> professionsFocusList = professionsFocusMapper.findAll(openId);
+        List<PapersFocus> papersFocusList = papersFocusMapper.findAll(openId);
+        List<String> colleges = new ArrayList<>();
+        List<String> professions = new ArrayList<>();
+        List<String> papers = new ArrayList<>();
+        for(CollegesFocus c:collegesFocusList){
+            colleges.add(c.getColleges());
+        }
+        for(ProfessionsFocus p:professionsFocusList){
+            professions.add(p.getProfessions());
+        }
+        for(PapersFocus p:papersFocusList){
+            papers.add(p.getPapers());
+        }
+        UserFocusVo u = new UserFocusVo();
+        u.setOpenId(openId);
+        u.setColleges(colleges);
+        u.setPapers(papers);
+        u.setProfessions(professions);
+        return u;
     }
 
     /**
