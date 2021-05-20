@@ -17,6 +17,14 @@ public class User {
 
     private String password;
 
+    private String openId;
+
+    private String avatar;
+
+    private String sex;
+
+    private String graduatedSchool;
+
     private String phone;
 
     private String role;

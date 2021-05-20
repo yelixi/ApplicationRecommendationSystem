@@ -1,5 +1,8 @@
 package com.example.demo.Vo;
 
+import com.example.demo.entity.Colleges;
+import com.example.demo.entity.Papers;
+import com.example.demo.entity.Professions;
 import lombok.Data;
 
 import java.util.List;
@@ -12,9 +15,9 @@ import java.util.List;
 public class UserFocusVo {
     String openId;
 
-    List<String> colleges;
+    List<Colleges> colleges;
 
-    List<String> papers;
+    List<Papers> papers;
 
-    List<String> professions;
+    List<Professions> professions;
 }

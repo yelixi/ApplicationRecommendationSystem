@@ -26,6 +26,7 @@ public interface UserService {
      */
     User queryById(Integer id);
 
+    User queryByOpenId(String openId);
     /**
      * 查询多条数据
      *
@@ -99,4 +100,6 @@ public interface UserService {
     boolean changePassword(ChangePasswordParam param, UserInformation userInformation);
 
     UserFocusVo getFocusInfo(String openId);
+
+    User updateByOpenId(User user);
 }

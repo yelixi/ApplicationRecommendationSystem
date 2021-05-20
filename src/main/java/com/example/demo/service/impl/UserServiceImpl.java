@@ -20,8 +20,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import javax.xml.crypto.Data;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -67,6 +69,11 @@ public class UserServiceImpl implements UserService , UserDetailsService {
     @Override
     public User queryById(Integer id) {
         return this.userDao.queryById(id);
+    }
+
+    @Override
+    public User queryByOpenId(String openId) {
+        return userDao.queryByOpenId(openId);
     }
 
     /**
@@ -237,17 +244,42 @@ public class UserServiceImpl implements UserService , UserDetailsService {
         List<CollegesFocus> collegesFocusList = collegesFocusMapper.findAll(openId);
         List<ProfessionsFocus> professionsFocusList = professionsFocusMapper.findAll(openId);
         List<PapersFocus> papersFocusList = papersFocusMapper.findAll(openId);
-        List<String> colleges = new ArrayList<>();
-        List<String> professions = new ArrayList<>();
-        List<String> papers = new ArrayList<>();
+        List<Colleges> colleges = new ArrayList<>();
+        List<Professions> professions = new ArrayList<>();
+        List<Papers> papers = new ArrayList<>();
         for(CollegesFocus c:collegesFocusList){
-            colleges.add(c.getColleges());
+            Colleges college = new Colleges();
+            college.setId(c.getId());
+            college.setName(c.getColleges());
+            college.setOpenId(c.getOpenId().toString());
+            college.setCompetentDepartment("教育局");
+            college.setMinimumRank(10000);
+            college.setMinimumScore(600);
+            college.setProvince("江苏");
+            college.setSchoolCord("10001");
+            college.setUneven("双一流");
+            colleges.add(college);
         }
         for(ProfessionsFocus p:professionsFocusList){
-            professions.add(p.getProfessions());
+            Professions profession = new Professions();
+            profession.setId(p.getId());
+            profession.setOpenId(p.getOpenId().toString());
+            profession.setName(p.getProfessions());
+            profession.setMajorIntroduction("专业的具体介绍");
+            professions.add(profession);
         }
         for(PapersFocus p:papersFocusList){
-            papers.add(p.getPapers());
+            Papers paper = new Papers();
+            paper.setId(p.getId());
+            paper.setName(p.getPapers());
+            paper.setDetail("高考资讯");
+            paper.setPublishTime(new Date());
+            paper.setReadTimes(3);
+            paper.setThumbUpTimes(3);
+            paper.setDetail("小标题");
+            paper.setSource("https://gaokao.chsi.com.cn/wap/zxdy/zxs");
+            paper.setOpenId(p.getOpenId().toString());
+            papers.add(paper);
         }
         UserFocusVo u = new UserFocusVo();
         u.setOpenId(openId);
@@ -255,6 +287,14 @@ public class UserServiceImpl implements UserService , UserDetailsService {
         u.setPapers(papers);
         u.setProfessions(professions);
         return u;
+    }
+
+    @Override
+    public User updateByOpenId(User user) {
+        User u = userDao.queryByOpenId(user.getOpenId());
+        user.setId(u.getId());
+        userDao.update(user);
+        return userDao.queryById(user.getId());
     }
 
     /**

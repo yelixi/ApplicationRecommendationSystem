@@ -5,6 +5,10 @@
         <result property="id" column="id" jdbcType="INTEGER"/>
         <result property="username" column="username" jdbcType="VARCHAR"/>
         <result property="password" column="password" jdbcType="VARCHAR"/>
+        <result property="avatar" column="avatar" jdbcType="VARCHAR"/>
+        <result property="sex" column="sex" jdbcType="VARCHAR"/>
+        <result property="openId" column="open_id" jdbcType="VARCHAR"/>
+        <result property="graduatedSchool" column="graduated_school"/>
         <result property="phone" column="phone" jdbcType="VARCHAR"/>
         <result property="role" column="role" jdbcType="VARCHAR"/>
         <result property="email" column="email" jdbcType="VARCHAR"/>
@@ -18,7 +22,7 @@
     <select id="queryById" resultMap="UserMap">
 
                 select
-                  id, username, password, phone, role, create_time, update_time, delete_time, email, state
+                  id, username, password, phone, role, create_time, update_time, delete_time, email, state, sex, avatar, graduated_school, open_id
                 from ars.user
                 where id = #{id}
 
@@ -28,7 +32,7 @@
     <select id="queryAllByLimit" resultMap="UserMap">
 
                 select
-                  id, username, password, phone, role, create_time, update_time, delete_time, email, state
+                  id, username, password, phone, role, create_time, update_time, delete_time, email, state, sex, avatar, graduated_school, open_id
                 from ars.user
                 limit #{offset}, #{limit}
 
@@ -37,11 +41,14 @@
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="UserMap">
         select
-        id, username, password, phone, role, create_time, update_time, delete_time, email, state
+        id, username, password, phone, role, create_time, update_time, delete_time, email, state, sex, avatar, graduated_school, open_id
         from ars.user
         <where>
             <if test="id != null">
                 and id = #{id}
+            </if>
+            <if test="openId != null and openId != ''">
+                and open_id = #{openId}
             </if>
             <if test="username != null and username != ''">
                 and username = #{username}
@@ -49,8 +56,17 @@
             <if test="password != null and password != ''">
                 and password = #{password}
             </if>
-            <if test="phone != null and phone != ''">
-                and phone = #{phone}
+            <if test="sex != null and sex != ''">
+                and sex = #{sex}
+            </if>
+            <if test="avatar != null and avatar != ''">
+                and avatar = #{avatar}
+            </if>
+            <if test="password != null and password != ''">
+                and password = #{password}
+            </if>
+            <if test="graduatedSchool != null and graduatedSchool != ''">
+                and graduated_school = #{graduatedSchool}
             </if>
             <if test="email != null and email != ''">
                 and email = #{email}
@@ -76,53 +92,72 @@
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
 
-                insert into ars.user(username, password, phone, role, create_time, update_time, delete_time, email, state)
-                values (#{username}, #{password}, #{phone}, #{role}, #{createTime}, #{updateTime}, #{deleteTime}, #{email}, #{state})
+                insert into ars.user(username, password, phone, role, create_time, update_time, delete_time, email, state, sex, avatar, graduated_school, open_id)
+                values (#{username}, #{password}, #{phone}, #{role}, #{createTime}, #{updateTime}, #{deleteTime}, #{email}, #{state}, #{sex}, #{avatar},
+                #{graduatedSchool}, #{openId})
 
     </insert>
 
     <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
-        insert into ars.user(username, password, phone, role, create_time, update_time, delete_time, email, state)
+        insert into ars.user(username, password, phone, role, create_time, update_time, delete_time, email, state, sex, avatar, graduated_school, open_id)
         values
         <foreach collection="entities" item="entity" separator=",">
             (#{entity.username}, #{entity.password}, #{entity.phone}, #{entity.role}, #{entity.createTime},
-            #{entity.updateTime}, #{entity.deleteTime}), #{entity.email}, #{entity.state}
+            #{entity.updateTime}, #{entity.deleteTime}, #{entity.email}, #{entity.state}, #{entity.sex},
+            #{entity.avatar}, #{entity.graduatedSchool}, #{enety.openId})
         </foreach>
     </insert>
 
     <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
-        insert into ars.user(username, password, phone, role, create_time, update_time, delete_time, email, state)
+        insert into ars.user(username, password, phone, role, create_time, update_time, delete_time, email, state, sex, avatar, graduated_school, open_id)
         values
         <foreach collection="entities" item="entity" separator=",">
             (#{entity.username}, #{entity.password}, #{entity.phone}, #{entity.role}, #{entity.createTime},
-            #{entity.updateTime}, #{entity.deleteTime}), #{entity.email}, #{entity.state}
+            #{entity.updateTime}, #{entity.deleteTime}, #{entity.email}, #{entity.state}, #{entity.sex},
+            #{entity.avatar}, #{entity.graduatedSchool}, #{entity.openId})
         </foreach>
         on duplicate key update
         username = values(username) , password = values(password) , phone = values(phone) , role = values(role) ,
         create_time = values(create_time) , update_time = values(update_time) , delete_time = values(delete_time),
-        email = values(email), state = values(state)
+        email = values(email), state = values(state), sex = values(sex), avatar = values(avatar),
+        graduated_school = values(graduated_school), open_id = values(open_id)
     </insert>
 
     <!--通过主键修改数据-->
     <update id="update">
         update ars.user
         <set>
-            <if test="username != null and username != ''">
+            <if test="openId != null">
+                open_id = #{openId},
+            </if>
+            <if test="username != null">
                 username = #{username},
             </if>
-            <if test="password != null and password != ''">
+            <if test="password != null">
                 password = #{password},
             </if>
-            <if test="phone != null and phone != ''">
+            <if test="avatar != null">
+                avatar = #{avatar},
+            </if>
+            <if test="sex != null">
+                sex = #{sex},
+            </if>
+            <if test="password != null">
+                password = #{password},
+            </if>
+            <if test="graduatedSchool != null">
+                graduated_school = #{graduatedSchool},
+            </if>
+            <if test="phone != null">
                 phone = #{phone},
             </if>
-            <if test="email != null and email != ''">
+            <if test="email != null">
                 email = #{email},
             </if>
-            <if test="role != null and role != ''">
+            <if test="role != null">
                 role = #{role},
             </if>
-            <if test="state != null and state != ''">
+            <if test="state != null">
                 state = #{state},
             </if>
             <if test="createTime != null">
@@ -149,7 +184,7 @@
     <select id="queryByUsername" resultMap="UserMap">
 
                 select
-                  id, username, password, phone, role, create_time, update_time, delete_time, email, state
+                  id, username, password, phone, role, create_time, update_time, delete_time, email, state, sex, avatar, graduated_school, open_id
                 from ars.user
                 where username = #{username}
 
@@ -158,9 +193,18 @@
     <select id="queryByEmail" resultMap="UserMap">
 
                 select
-                  id, username, password, phone, role, create_time, update_time, delete_time, email, state
+                  id, username, password, phone, role, create_time, update_time, delete_time, email, state, sex, avatar, graduated_school, open_id
                 from ars.user
                 where email = #{email}
+
+    </select>
+
+    <select id="queryByOpenId" resultMap="UserMap">
+
+                select
+                  id, username, password, phone, role, create_time, update_time, delete_time, email, state, sex, avatar, graduated_school, open_id
+                from ars.user
+                where open_id = #{openId}
 
     </select>
 </mapper>

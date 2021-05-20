@@ -21,16 +21,30 @@ public class ConsultController {
     @Resource
     private ConsultService consultService;
 
+    /**
+     * 获取全部咨讯
+     * @return 全部资讯
+     */
     @GetMapping("/getConsoleList")
     RestResult<PageInfo<Consult>> getConsoleList(){
         return RestResult.success(consultService.List());
     }
 
+    /**
+     * 增加阅读次数
+     * @param consultId 咨询id
+     * @return 成功
+     */
     @PostMapping("/addReader")
     RestResult<Boolean> addReader(@RequestParam("id") Integer consultId){
         return RestResult.success(consultService.addReader(consultId));
     }
 
+    /**
+     * 增加点赞次数
+     * @param consultId 咨询id
+     * @return 成功
+     */
     @PostMapping("/addThumpUp")
     RestResult<Boolean> addThumpUp(@RequestParam("id") Integer consultId){
         return RestResult.success(consultService.addThumpUp(consultId));

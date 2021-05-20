@@ -2,18 +2,15 @@ package com.example.demo.controller;
 
 import com.example.demo.Vo.UserFocusVo;
 import com.example.demo.Vo.UserInfoVo;
-import com.example.demo.entity.OpenId;
 import com.example.demo.entity.User;
 import com.example.demo.entity.UserInfo;
 import com.example.demo.enums.ResultEnum;
 import com.example.demo.model.RestResult;
 import com.example.demo.model.UserInformation;
 import com.example.demo.service.ImageService;
-import com.example.demo.service.OpenIdService;
 import com.example.demo.service.UserInfoService;
 import com.example.demo.service.UserService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -41,9 +38,6 @@ public class UserInfoController {
     @Resource
     private UserService userService;
 
-    @Resource
-    private OpenIdService openIdService;
-
     /**
      * 允许的图片路径
      */
@@ -67,43 +61,29 @@ public class UserInfoController {
      * @return 是否成功
      */
     @PutMapping("/updateUserInfo")
-    public RestResult<UserInfoVo> update(@RequestBody UserInfoVo userUpdateInfo) {
-        /*UserInformation userInformation = (UserInformation) authentication.getPrincipal();
-        UserInfo userInfos = this.userInfoService.queryByUserId(userInformation.getId());
-        if (userInfos == null) {
-            userUpdateInfo.setUserId(userInformation.getId());
-            return RestResult.success(this.userInfoService.insert(userUpdateInfo));
-        } else {
-            return RestResult.success(this.userInfoService.update(userUpdateInfo));
-        }*/
+    public RestResult<UserInfo> update(@RequestBody UserInfoVo userUpdateInfo) {
         //获取openId
-        OpenId open = openIdService.selectByOpenId(userUpdateInfo.getOpenId());
+        User user = userService.queryByOpenId(userUpdateInfo.getOpenId());
+        //OpenId open = openIdService.selectByOpenId(userUpdateInfo.getOpenId());
         //获取传入的userInfo
         UserInfo userInfo = userUpdateInfo.getUserInfo();
         //获取表中是否已有用户信息
-        UserInfo userInfos = userInfoService.queryByUserId(open.getUserId());
-        //User user = userService.queryById(open.getUserId());
-        //UserInfoVo userInfoVo = new UserInfoVo(new UserInformation(user));
+        UserInfo userInfos = userInfoService.queryByUserId(user.getId());
         //设置唯一索引UserId
-        userInfo.setUserId(open.getUserId());
+        userInfo.setUserId(user.getId());
         if (userInfos == null) {
             //如果表中没有数据则插入
             //userUpdateInfo.setUserInfo(userInfo);
-            this.userInfoService.insert(userInfo);
+            return RestResult.success(this.userInfoService.insert(userInfo));
         } else {
             //否则更新
-            this.userInfoService.update(userInfo);
+            return RestResult.success(this.userInfoService.update(userInfo));
         }
-        //
-        userUpdateInfo.setId(open.getUserId());
-        User users = userUpdateInfo;
-        userService.update(users);
-        User user = userService.queryById(open.getUserId());
-        UserInfoVo userInfoVo = new UserInfoVo(new UserInformation(user));
-        userInfoVo.setPassword("******");
-        userInfoVo.setUserInfo(userInfos);
-        userInfoVo.setOpenId(open.getOpenId());
-        return RestResult.success(userInfoVo);
+    }
+
+    @PutMapping("/updateUser")
+    public RestResult<User> updateUser(@RequestBody User user){
+        return RestResult.success(userService.updateByOpenId(user));
     }
 
     /**
@@ -114,7 +94,7 @@ public class UserInfoController {
      * @return com.example.demo.model.RestResult
      */
     @PostMapping("uploadAvatar")
-    public RestResult<String> uploadAvatar(@RequestParam("file") MultipartFile file, String type, Authentication authentication) {
+    public RestResult<String> uploadAvatar(@RequestParam("file") MultipartFile file, String type, String openId) {
         if (file == null) {
             return RestResult.error("file不存在");
         }
@@ -132,14 +112,12 @@ public class UserInfoController {
         if (url == null) {
             return RestResult.error("图片 " + file.getOriginalFilename() + " 上传失败");
         } else {
-            UserInformation userInformation = (UserInformation) authentication.getPrincipal();
-            if (userInformation == null) {
+            User user = userService.queryByOpenId(openId);
+            if (user == null) {
                 return RestResult.error(ResultEnum.NO_PERMISSION_ACCESS);
             }
-            UserInfo userInfo = new UserInfo();
-            userInfo.setUserId(userInformation.getId());
-            userInfo.setAvatar(url);
-            userInfoService.update(userInfo);
+            user.setAvatar(url);
+            userService.update(user);
             return RestResult.success(url);
         }
     }
@@ -149,27 +127,10 @@ public class UserInfoController {
      * @param openId 用户唯一索引openId
      * @return com.example.demo.model.RestResult
      */
-    /*@GetMapping("/doLoginGet")
-    public RestResult<UserInfoVo> loginGet(Authentication authentication){
-
-        UserInformation userInformation=(UserInformation)authentication.getPrincipal();
-        UserInfo userInfo=this.userInfoService.queryByUserId(userInformation.getId());
-        UserInfoVo userInfoVo = new UserInfoVo(userInformation);
-        userInfoVo.setPassword("******");
-        userInfoVo.setUserInfo(userInfo);
-        if (userInfo==null){
-            return RestResult.error("登陆信息不存在");
-        }else{
-            return RestResult.success(userInfoVo);
-        }
-
-    }*/
-
     @GetMapping("/doLoginGet")
     public RestResult<UserInfoVo> loginGet(@RequestParam("openId") String openId){
-        OpenId open = openIdService.selectByOpenId(openId);
-        UserInfo userInfo = userInfoService.queryByUserId(open.getUserId());
-        User user = userService.queryById(open.getUserId());
+        User user = userService.queryByOpenId(openId);
+        UserInfo userInfo = userInfoService.queryByUserId(user.getId());
         UserInfoVo userInfoVo = new UserInfoVo(new UserInformation(user));
         userInfoVo.setPassword("******");
         userInfoVo.setUserInfo(userInfo);
@@ -179,17 +140,6 @@ public class UserInfoController {
         }else {
             return RestResult.success(userInfoVo);
         }
-        /*UserInformation userInformation=(UserInformation)authentication.getPrincipal();
-        UserInfo userInfo=this.userInfoService.queryByUserId(userInformation.getId());
-        UserInfoVo userInfoVo = new UserInfoVo(userInformation);
-        userInfoVo.setPassword("******");
-        userInfoVo.setUserInfo(userInfo);
-        if (userInfo==null){
-            return RestResult.error("登陆信息不存在");
-        }else{
-            return RestResult.success(userInfoVo);
-        }*/
-
     }
 
     /**

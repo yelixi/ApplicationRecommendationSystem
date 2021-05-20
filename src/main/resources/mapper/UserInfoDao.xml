@@ -5,7 +5,6 @@
         <result property="id" column="id" jdbcType="INTEGER"/>
         <result property="userId" column="user_id" jdbcType="INTEGER"/>
         <result property="name" column="name" jdbcType="VARCHAR"/>
-        <result property="avatar" column="avatar" jdbcType="VARCHAR"/>
         <result property="location" column="location" jdbcType="VARCHAR"/>
         <result property="mode" column="mode" jdbcType="VARCHAR"/>
         <result property="expectScore" column="expect_score" jdbcType="INTEGER"/>
@@ -30,7 +29,7 @@
     <select id="queryById" resultMap="UserInfoMap">
 
                 select
-                  id, user_id, name, avatar, location, mode, expect_score, chinese, math, english, physics, chemistry, biology, politics, history, geography, technology, comprehensive_science, comprehensive_liberal_arts, create_time, update_time, delete_time
+                  id, user_id, name, location, mode, expect_score, chinese, math, english, physics, chemistry, biology, politics, history, geography, technology, comprehensive_science, comprehensive_liberal_arts, create_time, update_time, delete_time
                 from ars.user_info
                 where id = #{id}
 
@@ -40,7 +39,7 @@
     <select id="queryAllByLimit" resultMap="UserInfoMap">
 
                 select
-                  id, user_id, name, avatar, location, mode, expect_score, chinese, math, english, physics, chemistry, biology, politics, history, geography, technology, comprehensive_science, comprehensive_liberal_arts, create_time, update_time, delete_time
+                  id, user_id, name, location, mode, expect_score, chinese, math, english, physics, chemistry, biology, politics, history, geography, technology, comprehensive_science, comprehensive_liberal_arts, create_time, update_time, delete_time
                 from ars.user_info
                 limit #{offset}, #{limit}
 
@@ -49,7 +48,7 @@
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="UserInfoMap">
         select
-        id, user_id, name, avatar, location, mode, expect_score, chinese, math, english, physics, chemistry, biology,
+        id, user_id, name, location, mode, expect_score, chinese, math, english, physics, chemistry, biology,
         politics, history, geography, technology, comprehensive_science, comprehensive_liberal_arts, create_time,
         update_time, delete_time
         from ars.user_info
@@ -62,9 +61,6 @@
             </if>
             <if test="name != null and name != ''">
                 and name = #{name}
-            </if>
-            <if test="avatar != null and avatar != ''">
-                and avatar = #{avatar}
             </if>
             <if test="location != null and location != ''">
                 and location = #{location}
@@ -126,18 +122,18 @@
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
 
-                insert into ars.user_info(user_id, name, avatar, location, mode, expect_score, chinese, math, english, physics, chemistry, biology, politics, history, geography, technology, comprehensive_science, comprehensive_liberal_arts, create_time, update_time, delete_time)
-                values (#{userId}, #{name}, #{avatar}, #{location}, #{mode}, #{expectScore}, #{chinese}, #{math}, #{english}, #{physics}, #{chemistry}, #{biology}, #{politics}, #{history}, #{geography}, #{technology}, #{comprehensiveScience}, #{comprehensiveLiberalArts}, #{createTime}, #{updateTime}, #{deleteTime})
+                insert into ars.user_info(user_id, name, location, mode, expect_score, chinese, math, english, physics, chemistry, biology, politics, history, geography, technology, comprehensive_science, comprehensive_liberal_arts, create_time, update_time, delete_time)
+                values (#{userId}, #{name}, #{location}, #{mode}, #{expectScore}, #{chinese}, #{math}, #{english}, #{physics}, #{chemistry}, #{biology}, #{politics}, #{history}, #{geography}, #{technology}, #{comprehensiveScience}, #{comprehensiveLiberalArts}, #{createTime}, #{updateTime}, #{deleteTime})
 
     </insert>
 
     <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
-        insert into ars.user_info(user_id, name, avatar, location, mode, expect_score, chinese, math, english, physics,
+        insert into ars.user_info(user_id, name, location, mode, expect_score, chinese, math, english, physics,
         chemistry, biology, politics, history, geography, technology, comprehensive_science, comprehensive_liberal_arts,
         create_time, update_time, delete_time)
         values
         <foreach collection="entities" item="entity" separator=",">
-            (#{entity.userId}, #{entity.name}, #{entity.avatar}, #{entity.location}, #{entity.mode},
+            (#{entity.userId}, #{entity.name}, #{entity.location}, #{entity.mode},
             #{entity.expectScore}, #{entity.chinese}, #{entity.math}, #{entity.english}, #{entity.physics},
             #{entity.chemistry}, #{entity.biology}, #{entity.politics}, #{entity.history}, #{entity.geography},
             #{entity.technology}, #{entity.comprehensiveScience}, #{entity.comprehensiveLiberalArts},
@@ -146,19 +142,19 @@
     </insert>
 
     <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
-        insert into ars.user_info(user_id, name, avatar, location, mode, expect_score, chinese, math, english, physics,
+        insert into ars.user_info(user_id, name, location, mode, expect_score, chinese, math, english, physics,
         chemistry, biology, politics, history, geography, technology, comprehensive_science, comprehensive_liberal_arts,
         create_time, update_time, delete_time)
         values
         <foreach collection="entities" item="entity" separator=",">
-            (#{entity.userId}, #{entity.name}, #{entity.avatar}, #{entity.location}, #{entity.mode},
+            (#{entity.userId}, #{entity.name}, #{entity.location}, #{entity.mode},
             #{entity.expectScore}, #{entity.chinese}, #{entity.math}, #{entity.english}, #{entity.physics},
             #{entity.chemistry}, #{entity.biology}, #{entity.politics}, #{entity.history}, #{entity.geography},
             #{entity.technology}, #{entity.comprehensiveScience}, #{entity.comprehensiveLiberalArts},
             #{entity.createTime}, #{entity.updateTime}, #{entity.deleteTime})
         </foreach>
         on duplicate key update
-        user_id = values(user_id) , name = values(name) , avatar = values(avatar) , location = values(location) , mode =
+        user_id = values(user_id) , name = values(name), location = values(location) , mode =
         values(mode) , expect_score = values(expect_score) , chinese = values(chinese) , math = values(math) , english =
         values(english) , physics = values(physics) , chemistry = values(chemistry) , biology = values(biology) ,
         politics = values(politics) , history = values(history) , geography = values(geography) , technology =
@@ -176,9 +172,6 @@
             </if>
             <if test="name != null and name != ''">
                 name = #{name},
-            </if>
-            <if test="avatar != null and avatar != ''">
-                avatar = #{avatar},
             </if>
             <if test="location != null and location != ''">
                 location = #{location},
@@ -248,7 +241,7 @@
     <select id="queryByUserId" resultMap="UserInfoMap">
 
                 select
-                  id, user_id, name, avatar, location, mode, expect_score, chinese, math, english, physics, chemistry, biology, politics, history, geography, technology, comprehensive_science, comprehensive_liberal_arts, create_time, update_time, delete_time
+                  id, user_id, name, location, mode, expect_score, chinese, math, english, physics, chemistry, biology, politics, history, geography, technology, comprehensive_science, comprehensive_liberal_arts, create_time, update_time, delete_time
                 from ars.user_info
                 where user_id = #{userId}
 

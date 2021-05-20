@@ -1,5 +1,6 @@
 package com.example.demo.conf;
 
+import com.example.demo.handler.TigerLogoutSuccessHandler;
 import com.example.demo.model.RestResult;
 import com.example.demo.util.ResponseUtil;
 import org.springframework.context.annotation.Bean;
@@ -11,6 +12,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+
+import javax.annotation.Resource;
 
 /**
  * Created by 林夕
@@ -20,6 +24,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
+
+    private final TigerLogoutSuccessHandler logoutSuccessHandler = new TigerLogoutSuccessHandler("/");
 
     private static final String[] NO_AUTH_LIST = {
             /*"/configuration/ui",
@@ -48,7 +54,7 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
                 .and().sessionManagement().maximumSessions(1)
                 .expiredSessionStrategy(s -> ResponseUtil.restResponse(s.getResponse(), HttpStatus.FORBIDDEN, RestResult.error(499, "您的账号在别的地方登录，当前登录已失效")))
                 .and()
-                .and().logout().logoutUrl("/logout").permitAll()
+                .and().logout().logoutUrl("/logout").logoutSuccessHandler(logoutSuccessHandler).deleteCookies("JSESSIONID").permitAll()
                 .and().authorizeRequests().antMatchers(NO_AUTH_LIST).permitAll()
                 .and().authorizeRequests().anyRequest().authenticated();
     }

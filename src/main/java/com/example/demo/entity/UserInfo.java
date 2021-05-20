@@ -19,8 +19,6 @@ public class UserInfo {
      */
     private String name;
 
-    private String avatar;
-
     private String location;
 
     /**
