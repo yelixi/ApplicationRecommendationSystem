@@ -40,7 +40,7 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().cors()
-                .and().formLogin().loginPage("/login").loginProcessingUrl("/login").usernameParameter("username")
+                .and().formLogin().loginPage("/login").loginProcessingUrl("/login").usernameParameter("code")
                 //登录失败处理，返回json
                 .failureHandler((req, resp, e) -> ResponseUtil.restResponse(resp, HttpStatus.FORBIDDEN, RestResult.error(403, e.getMessage())))
                 //登录成功处理，返回json
