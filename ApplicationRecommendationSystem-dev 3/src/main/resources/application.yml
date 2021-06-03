@@ -17,11 +17,6 @@ media:
   dir: ./ArsMedia/
 
 spring:
-  datasource:
-    url: jdbc:mysql://8.136.211.96:3306/ars?serverTimezone=GMT%2B8
-    username: root
-    password: 123456
-    driver-class-name: com.mysql.cj.jdbc.Driver
   main:
     allow-bean-definition-overriding: true
   data:
@@ -60,4 +55,10 @@ spring:
     resources:
       static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,file:${media.dir}
 
+
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    show-sql: true
+    hibernate:
+      ddl-auto: update
 

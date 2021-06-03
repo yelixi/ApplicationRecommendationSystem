@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.dao.PapersFocusMapper">
+  <resultMap id="BaseResultMap" type="com.example.demo.entity.PapersFocus">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="open_id" jdbcType="INTEGER" property="openId" />
+    <result column="papers" jdbcType="VARCHAR" property="papers" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, open_id, papers
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from papers_focus
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from papers_focus
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.example.demo.entity.PapersFocus">
+    insert into papers_focus (id, open_id, papers
+      )
+    values (#{id,jdbcType=INTEGER}, #{openId,jdbcType=INTEGER}, #{papers,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.demo.entity.PapersFocus">
+    insert into papers_focus
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="openId != null">
+        open_id,
+      </if>
+      <if test="papers != null">
+        papers,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="openId != null">
+        #{openId,jdbcType=INTEGER},
+      </if>
+      <if test="papers != null">
+        #{papers,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.entity.PapersFocus">
+    update papers_focus
+    <set>
+      <if test="openId != null">
+        open_id = #{openId,jdbcType=INTEGER},
+      </if>
+      <if test="papers != null">
+        papers = #{papers,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.demo.entity.PapersFocus">
+    update papers_focus
+    set open_id = #{openId,jdbcType=INTEGER},
+      papers = #{papers,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="findAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from papers_focus
+    where open_id = #{openId,jdbcType=VARCHAR}
+  </select>
+</mapper>
